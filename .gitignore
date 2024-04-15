@@ -1,0 +1,10 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/PlayerSniperPlaylistCreator/obj/Debug
+/PlayerSniperPlaylistCreator/obj
+/PlayerSniperPlaylistCreator/bin/Debug
+/.vs/PlayerSniperPlaylistCreator/FileContentIndex
+/.vs/PlayerSniperPlaylistCreator/v17/.suo
+/.vs/PlayerSniperPlaylistCreator/v17/DocumentLayout.json
