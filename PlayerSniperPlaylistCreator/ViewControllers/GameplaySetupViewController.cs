@@ -8,16 +8,14 @@ using System.Threading.Tasks;
 using BeatSaberMarkupLanguage.Components;
 using BeatSaberMarkupLanguage.Tags;
 
-namespace PlayerSniperPlaylistCreator.ViewControllers.GameplaySetup
+namespace PlayerSniperPlaylistCreator.ViewControllers
 {
-    [ViewDefinition("PlayerSniperPlaylistCreator.ViewControllers.GameplaySetup.GameplaySetupViewController.bsml")]
+    [ViewDefinition("PlayerSniperPlaylistCreator.ViewControllers.GameplaySetupViewController.bsml")]
     public class GameplaySetupViewController
     {
         // WHY ISNT THIS WORKING :(
         [UIValue("playerList")]
         private List<object> playerList = new List<object>() { "hey guys", "hi" };
-
-        
 
     }
 }

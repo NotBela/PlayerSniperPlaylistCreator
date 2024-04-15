@@ -1,6 +1,9 @@
-﻿using IPA;
+﻿using BeatSaberMarkupLanguage.GameplaySetup;
+using BeatSaberMarkupLanguage.Settings;
+using IPA;
 using IPA.Config;
 using IPA.Config.Stores;
+using PlayerSniperPlaylistCreator.Configuration;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -46,7 +49,13 @@ namespace PlayerSniperPlaylistCreator
         [OnStart]
         public void OnApplicationStart()
         {
+            BSMLSettings.instance.AddSettingsMenu("PSPC", "PlayerSniperPlaylistCreator.ViewControllers.SettingsViewController.bsml", Configuration.PluginConfig.Instance);
             // Log.Debug("OnApplicationStart");
+            if (PluginConfig.Instance.enabled)
+            {
+                GameplaySetupViewController controller = new GameplaySetupViewController();
+                GameplaySetup.instance.AddTab("PSPC", "PlayerSniperPlaylistCreator.ViewControllers.GameplaySetupViewController.bsml", controller, MenuType.Solo);
+            }
 
         }
 
@@ -54,6 +63,7 @@ namespace PlayerSniperPlaylistCreator
         public void OnApplicationQuit()
         {
             // Log.Debug("OnApplicationQuit");
+            GameplaySetup.instance.RemoveTab("PSPC");
 
         }
     }

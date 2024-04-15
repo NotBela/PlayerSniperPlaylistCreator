@@ -1,13 +1,14 @@
 ﻿using System.Runtime.CompilerServices;
+using BeatSaberMarkupLanguage.GameplaySetup;
 using IPA.Config.Stores;
 
 [assembly: InternalsVisibleTo(GeneratedStore.AssemblyVisibilityTarget)]
 namespace PlayerSniperPlaylistCreator.Configuration
 {
-    internal class PluginConfig
+    public class PluginConfig
     {
         public static PluginConfig Instance { get; set; }
-        public virtual int IntValue { get; set; } = 42; // Must be 'virtual' if you want BSIPA to detect a value change and save the config automatically.
+        public virtual bool enabled { get; set; } = true;
 
         /// <summary>
         /// This is called whenever BSIPA reads the config from disk (including when file changes are detected).
@@ -23,6 +24,15 @@ namespace PlayerSniperPlaylistCreator.Configuration
         public virtual void Changed()
         {
             // Do stuff when the config is changed.
+            if (!enabled)
+            {
+                GameplaySetup.instance.RemoveTab("PSPC");
+            }
+            else
+            {
+                ViewControllers.GameplaySetupViewController controller = new ViewControllers.GameplaySetupViewController();
+                GameplaySetup.instance.AddTab("PSPC", "PlayerSniperPlaylistCreator.ViewControllers.GameplaySetupViewController.bsml", controller, MenuType.Solo);
+            }
         }
 
         /// <summary>
