@@ -10,6 +10,7 @@ namespace PlayerSniperPlaylistCreator.Configuration
         public static PluginConfig Instance { get; set; }
         public virtual bool enabled { get; set; } = true;
 
+        public virtual string selectedPlayer { get; set; }
         /// <summary>
         /// This is called whenever BSIPA reads the config from disk (including when file changes are detected).
         /// </summary>
