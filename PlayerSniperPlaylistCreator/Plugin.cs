@@ -23,11 +23,12 @@ namespace PlayerSniperPlaylistCreator
         /// [Init] methods that use a Constructor or called before regular methods like InitWithConfig.
         /// Only use [Init] with one Constructor.
         /// </summary>
-        public void Init(IPALogger logger)
+        public void Init(IPALogger logger, IPA.Config.Config conf)
         {
             Instance = this;
             Log = logger;
-            Log.Info("PlayerSniperPlaylistCreator initialized.");
+            Configuration.PluginConfig.Instance = conf.Generated<Configuration.PluginConfig>();
+            // Log.Info("PlayerSniperPlaylistCreator initialized.");
         }
 
         #region BSIPA Config
@@ -45,15 +46,14 @@ namespace PlayerSniperPlaylistCreator
         [OnStart]
         public void OnApplicationStart()
         {
-            Log.Debug("OnApplicationStart");
-            new GameObject("PlayerSniperPlaylistCreatorController").AddComponent<PlayerSniperPlaylistCreatorController>();
+            // Log.Debug("OnApplicationStart");
 
         }
 
         [OnExit]
         public void OnApplicationQuit()
         {
-            Log.Debug("OnApplicationQuit");
+            // Log.Debug("OnApplicationQuit");
 
         }
     }
