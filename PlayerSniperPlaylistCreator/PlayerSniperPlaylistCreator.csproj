@@ -45,6 +45,16 @@
       <Private>False</Private>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\Newtonsoft.Json.dll</HintPath>
+      <Private>False</Private>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="PlaylistManager">
+      <HintPath>$(BeatSaberDir)\Plugins\PlaylistManager.dll</HintPath>
+      <Private>False</Private>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -97,6 +107,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiHelper\ApiHelper.cs" />
+    <Compile Include="ApiHelper\ApiRegister.cs" />
     <Compile Include="Playlist\Difficulty.cs" />
     <Compile Include="Playlist\Map.cs" />
     <Compile Include="Playlist\Playlist.cs" />

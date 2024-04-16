@@ -51,8 +51,11 @@ namespace PlayerSniperPlaylistCreator
         {
             BSMLSettings.instance.AddSettingsMenu("PSPC", "PlayerSniperPlaylistCreator.ViewControllers.SettingsViewController.bsml", Configuration.PluginConfig.Instance);
             // Log.Debug("OnApplicationStart");
+
             if (PluginConfig.Instance.enabled)
             {
+                
+
                 GameplaySetupViewController controller = new GameplaySetupViewController();
                 GameplaySetup.instance.AddTab("PSPC", "PlayerSniperPlaylistCreator.ViewControllers.GameplaySetupViewController.bsml", controller, MenuType.Solo);
             }
