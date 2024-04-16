@@ -1,19 +1,11 @@
-﻿<bg xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' 
-	xsi:schemaLocation='https://monkeymanboy.github.io/BSML-Docs/ https://raw.githubusercontent.com/monkeymanboy/BSML-Docs/gh-pages/BSMLSchema.xsd'
-	>
-	<vertical>
-		<horizontal preferred-height='40'>
-			<text text='Player Sniper Playlist Creator' font-size='6'/>
-		</horizontal>
-
-		<horizontal>
-			<dropdown-list-setting
-				id='players'
-				text='Selected Player'
-				value='selectedPlayer'
-				options='playerList'
-				apply-on-change='true'
-			/>
-		</horizontal>
-	</vertical>
-</bg>
+﻿<vertical pref-height="10.0">
+	<text text='Player Sniper Playlist Creator' font-size='6' align='Center'/>
+		
+	<dropdown-list-setting
+		id='players'
+		text='Selected Player'
+		value='selectedPlayer'
+		options='playerList'
+		apply-on-change='true'
+	/>
+</vertical>
