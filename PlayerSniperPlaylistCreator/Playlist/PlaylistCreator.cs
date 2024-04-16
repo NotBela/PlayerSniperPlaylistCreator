@@ -38,9 +38,8 @@ namespace PlayerSniperPlaylistCreator.Playlist
         //DONE but NOT tested
         private List<Map> getMaps(int id, bool rankedOnly)
         {
-            ApiHelper api = ApiHelper.getInstance();
             List<Map> maps = new List<Map>();
-            RestResponse response1 = api.getResponse("/api/player/" + id + "/full");
+            RestResponse response1 = ApiHelper.getResponse("/api/player/" + id + "/full");
             JsonNode data1 = JsonSerializer.Deserialize<JsonNode>(response1.Content);
             int total = (int)data1["scoreStats"]["rankedPlayCount"];
             int maxPage = ((total - 1) / 100) + 2;
@@ -55,7 +54,7 @@ namespace PlayerSniperPlaylistCreator.Playlist
                 {
                     limit = total - ((maxPage - 2) * 100);
                 }
-                RestResponse response2 = api.getResponse("/api/player/" + id + "/scores?limit=" + limit + "&sort=top&page=" + i);
+                RestResponse response2 = ApiHelper.getResponse("/api/player/" + id + "/scores?limit=" + limit + "&sort=top&page=" + i);
                 JsonArray data2 = JsonSerializer.Deserialize<JsonArray>(response2.Content);
                 foreach (JsonNode x in data2)
                 {

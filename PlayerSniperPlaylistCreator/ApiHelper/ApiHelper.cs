@@ -9,26 +9,16 @@ using System.Threading.Tasks;
 
 namespace PlayerSniperPlaylistCreator
 {
-    public class ApiHelper
+    public static class ApiHelper
     {
-        private static ApiHelper instance;
-        private RestClient restClient;
+        private static RestClient restClient;
 
-        public ApiHelper(string url)
+        static ApiHelper()
         {
-            restClient = new RestClient(url);
+            restClient = new RestClient("https://scoresaber.com");
         }
 
-        public static ApiHelper getInstance()
-        {
-            if (instance == null)
-                instance = new ApiHelper("https://scoresaber.com");
-           
-            return instance;
-        }
-
-
-        public RestResponse getResponse(string url)
+        public static RestResponse getResponse(string url)
         {
             var request = new RestRequest(url);
             var response = restClient.ExecuteGet(request);
