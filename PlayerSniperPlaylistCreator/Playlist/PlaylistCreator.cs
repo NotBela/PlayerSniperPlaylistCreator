@@ -6,12 +6,16 @@ using System.Text;
 using System.Text.Json.Nodes;
 using System.Text.Json;
 using System.Threading.Tasks;
+using PlayerSniperPlaylistCreator.Api;
 
 namespace PlayerSniperPlaylistCreator.Playlist
 {
     internal class PlaylistCreator
     {
-        private RestClient client = new RestClient("https://scoresaber.com/");
+        // depricated
+        // private RestClient client = new RestClient("https://scoresaber.com/");
+
+
         /*
          * Required Parameters:
          * - sinperID: the number part of the sniper's score saberlink
@@ -36,7 +40,7 @@ namespace PlayerSniperPlaylistCreator.Playlist
         private List<Map> getMaps(int id, bool rankedOnly)
         {
             List<Map> maps = new List<Map>();
-            RestResponse response1 = getResponse("/api/player/" + id + "/full");
+            RestResponse response1 = Api.scoresaber.getResponse("/api/player/" + id + "/full");
             JsonNode data1 = JsonSerializer.Deserialize<JsonNode>(response1.Content);
             int total = (int)data1["scoreStats"]["rankedPlayCount"];
             int maxPage = ((total - 1) / 100) + 2;
@@ -51,7 +55,7 @@ namespace PlayerSniperPlaylistCreator.Playlist
                 {
                     limit = total - ((maxPage - 2) * 100);
                 }
-                RestResponse response2 = getResponse("/api/player/" + id + "/scores?limit=" + limit + "&sort=top&page=" + i);
+                RestResponse response2 = ApiHelperRegister.scoreSaberApiHelper.getResponse("/api/player/" + id + "/scores?limit=" + limit + "&sort=top&page=" + i);
                 JsonArray data2 = JsonSerializer.Deserialize<JsonArray>(response2.Content);
                 foreach (JsonNode x in data2)
                 {
@@ -61,6 +65,7 @@ namespace PlayerSniperPlaylistCreator.Playlist
             return maps;
         }
 
+        /* depricated. use ApiHelper instead
         private RestResponse getResponse(string url)
         {
             RestRequest request = new RestRequest(url);
@@ -74,5 +79,6 @@ namespace PlayerSniperPlaylistCreator.Playlist
                 return response;
             }
         }
+        */
     }
 }
