@@ -6,7 +6,6 @@ using System.Text;
 using System.Text.Json.Nodes;
 using System.Text.Json;
 using System.Threading.Tasks;
-using PlayerSniperPlaylistCreator.Api;
 
 namespace PlayerSniperPlaylistCreator.Playlist
 {
@@ -39,8 +38,9 @@ namespace PlayerSniperPlaylistCreator.Playlist
         //DONE but NOT tested
         private List<Map> getMaps(int id, bool rankedOnly)
         {
+            ApiHelper api = ApiHelper.getInstance();
             List<Map> maps = new List<Map>();
-            RestResponse response1 = Api.scoresaber.getResponse("/api/player/" + id + "/full");
+            RestResponse response1 = api.getResponse("/api/player/" + id + "/full");
             JsonNode data1 = JsonSerializer.Deserialize<JsonNode>(response1.Content);
             int total = (int)data1["scoreStats"]["rankedPlayCount"];
             int maxPage = ((total - 1) / 100) + 2;
@@ -55,30 +55,18 @@ namespace PlayerSniperPlaylistCreator.Playlist
                 {
                     limit = total - ((maxPage - 2) * 100);
                 }
-                RestResponse response2 = ApiHelperRegister.scoreSaberApiHelper.getResponse("/api/player/" + id + "/scores?limit=" + limit + "&sort=top&page=" + i);
+                RestResponse response2 = api.getResponse("/api/player/" + id + "/scores?limit=" + limit + "&sort=top&page=" + i);
                 JsonArray data2 = JsonSerializer.Deserialize<JsonArray>(response2.Content);
                 foreach (JsonNode x in data2)
                 {
-                    maps.Add(new Map((double)x["score"]["pp"], (double)x["score"]["baseScore"] / (double)x["leaderboard"]["maxScore"], (string)x["leaderboard"]["songHash"], new Difficulty("Standard", (int)x["leaderboard"]["difficulty"]["difficulty"])));
+                    double pp = (double)x["score"]["pp"];
+                    double acc = (double)x["score"]["baseScore"] / (double)x["leaderboard"]["maxScore"];
+                    string hash = (string)x["leaderboard"]["songHash"];
+                    Difficulty diff = new Difficulty(((string)x["leaderboard"]["difficulty"]["gameMode"]).Substring(4), (int)x["leaderboard"]["difficulty"]["difficulty"]);
+                    maps.Add(new Map(pp, acc, hash, diff));
                 }
             }
             return maps;
         }
-
-        /* depricated. use ApiHelper instead
-        private RestResponse getResponse(string url)
-        {
-            RestRequest request = new RestRequest(url);
-            RestResponse response = client.ExecuteGet(request);
-            if (((int)response.StatusCode) / 100 != 2)
-            {
-                throw new Exception("Got status code: " + response.StatusCode + ", from request: " + url);
-            }
-            else
-            {
-                return response;
-            }
-        }
-        */
     }
 }

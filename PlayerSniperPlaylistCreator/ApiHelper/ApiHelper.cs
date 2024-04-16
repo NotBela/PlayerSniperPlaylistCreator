@@ -11,12 +11,22 @@ namespace PlayerSniperPlaylistCreator
 {
     public class ApiHelper
     {
+        private static ApiHelper instance;
         private RestClient restClient;
 
         public ApiHelper(string url)
         {
             restClient = new RestClient(url);
         }
+
+        public static ApiHelper getInstance()
+        {
+            if (instance == null)
+                instance = new ApiHelper("https://scoresaber.com");
+           
+            return instance;
+        }
+
 
         public RestResponse getResponse(string url)
         {
