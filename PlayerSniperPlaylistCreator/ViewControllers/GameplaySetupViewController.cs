@@ -29,7 +29,8 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
         {
             get 
             { 
-                return PlayerWriter.readFromJson(PluginConfig.Instance.selectedPlayerId).id ?? playerList[0];
+                if (PluginConfig.Instance.selectedPlayerId == null) return playerList[0];
+                return PlayerWriter.readFromJson(PluginConfig.Instance.selectedPlayerId).id;
             }
             set 
             { 
@@ -42,8 +43,11 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
         [UIAction("testButtonOnClick")]
         private void testButtonOnClick()
         {
-            PlayerWriter.writeToJson(new Player("84004803840834", "test thin g"));
-            updatePlayerList();
+            //PlayerWriter.writeToJson(new Player("84004803840834", "test thin g"));
+            //updatePlayerList();
+
+            // this crashes beat saber and i dont know why
+            Plugin.Log.Info(Player.selfId);
         }
 
         private void updatePlayerList()
