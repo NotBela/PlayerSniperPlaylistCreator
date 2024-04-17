@@ -52,7 +52,7 @@ namespace PlayerSniperPlaylistCreator.Playlist
                 }
                 else
                 {
-                    limit = total - ((maxPage - 2) * 100);
+                    // limit = total - ((maxPage - 2) * 100);
                 }
                 RestResponse response2 = ApiHelper.getResponse("/api/player/" + id + "/scores?limit=" + limit + "&sort=top&page=" + i);
                 JsonArray data2 = JsonSerializer.Deserialize<JsonArray>(response2.Content);
@@ -64,6 +64,7 @@ namespace PlayerSniperPlaylistCreator.Playlist
                     Difficulty diff = new Difficulty(((string)x["leaderboard"]["difficulty"]["gameMode"]).Substring(4), (int)x["leaderboard"]["difficulty"]["difficulty"]);
                     maps.Add(new Map(pp, acc, hash, diff));
                 }
+                
             }
             return maps;
         }

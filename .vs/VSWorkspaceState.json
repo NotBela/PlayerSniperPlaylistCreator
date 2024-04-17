@@ -1,7 +1,11 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\PlayerSniperPlaylistCreator",
+    "\\PlayerSniperPlaylistCreator\\PlayerList",
+    "\\PlayerSniperPlaylistCreator\\Playlist",
+    "\\PlayerSniperPlaylistCreator\\ViewControllers"
   ],
-  "SelectedNode": "\\C:\\Users\\TheRa\\Source\\Repos\\PlayerSniperPlaylistCreator",
+  "SelectedNode": "\\PlayerSniperPlaylistCreator\\PlayerList\\PlayerWriter.cs",
   "PreviewInSolutionExplorer": false
 }

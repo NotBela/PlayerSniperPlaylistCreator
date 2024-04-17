@@ -1,11 +1,13 @@
-﻿<vertical pref-height="10.0">
-	<text text='Player Sniper Playlist Creator' font-size='6' align='Center'/>
-		
-	<dropdown-list-setting
-		id='players'
-		text='Selected Player'
-		value='selectedPlayer'
-		options='playerList'
-		apply-on-change='true'
-	/>
-</vertical>
+﻿<horizontal>
+	<vertical>
+		<dropdown-list-setting
+			id='players'
+			text='Selected Player'
+			value='selectedPlayer'
+			options='playerList'
+			apply-on-change='true'
+		/>
+
+		<button on-click='testButtonOnClick' id='testButton' text='test button'/>
+	</vertical>
+</horizontal>

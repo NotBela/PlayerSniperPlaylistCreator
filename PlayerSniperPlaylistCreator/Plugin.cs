@@ -4,9 +4,11 @@ using IPA;
 using IPA.Config;
 using IPA.Config.Stores;
 using PlayerSniperPlaylistCreator.Configuration;
+using PlayerSniperPlaylistCreator.PlayerList;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -54,7 +56,7 @@ namespace PlayerSniperPlaylistCreator
 
             if (PluginConfig.Instance.enabled)
             {
-                
+                Directory.CreateDirectory(PlayerWriter.path);
 
                 GameplaySetupViewController controller = new GameplaySetupViewController();
                 GameplaySetup.instance.AddTab("PSPC", "PlayerSniperPlaylistCreator.ViewControllers.GameplaySetupViewController.bsml", controller, MenuType.Solo);
