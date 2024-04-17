@@ -9,8 +9,11 @@ namespace PlayerSniperPlaylistCreator.Configuration
     {
         public static PluginConfig Instance { get; set; }
         public virtual bool enabled { get; set; } = true;
-
         public virtual string selectedPlayerId { get; set; }
+        public virtual bool includeUnplayed { get; set; } = false;
+        public virtual bool rankedOnly { get; set; } = true;
+        public virtual string playlistOrder { get; set; } = "targetPP";
+
         /// <summary>
         /// This is called whenever BSIPA reads the config from disk (including when file changes are detected).
         /// </summary>
