@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project>
   <PropertyGroup>
-    <BeatSaberDir>C:\Beat Saber\BSManager\BSInstances\Mod Devel</BeatSaberDir>
+    <BeatSaberDir>C:\Users\Bela Varga\BSManager\BSInstances\moddevel</BeatSaberDir>
     <ProjectView>ProjectFiles</ProjectView>
     <!-- Path to your Beat Saber install, only set if different from BeatSaberDir. -->
     <!--<GameDirectory></GameDirectory>-->

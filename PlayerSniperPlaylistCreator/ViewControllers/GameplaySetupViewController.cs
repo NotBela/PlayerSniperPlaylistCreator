@@ -19,7 +19,7 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
     public class GameplaySetupViewController
     {
         [UIComponent("players")]
-        private DropDownListSetting players = new DropDownListSetting();
+        private DropDownListSetting playersDropdown = new DropDownListSetting();
 
         [UIValue("playerList")]
         private List<object> playerList = new List<object>(sanatizePlayerList());
@@ -27,8 +27,16 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
         [UIValue("selectedPlayer")]
         private object selectedPlayer
         {
-            get { return PluginConfig.Instance.selectedPlayer; }
-            set { PluginConfig.Instance.selectedPlayer = value as string; }
+            get 
+            { 
+                return PlayerWriter.readFromJson(PluginConfig.Instance.selectedPlayerId).id ?? playerList[0];
+            }
+            set 
+            { 
+                Player current = value as Player;
+
+                PluginConfig.Instance.selectedPlayerId = current.id;
+            }
         }
 
         [UIAction("testButtonOnClick")]
@@ -40,8 +48,8 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
 
         private void updatePlayerList()
         {
-            players.values = new List<object>(sanatizePlayerList());
-            players.UpdateChoices();
+            playersDropdown.values = new List<object>(sanatizePlayerList());
+            playersDropdown.UpdateChoices();
         }
 
         // needs to be static or the program bitches about NOTHING !!!!!
