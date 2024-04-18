@@ -11,7 +11,6 @@ namespace PlayerSniperPlaylistCreator.PlayerList
 {
     internal class Player
     {
-        public static readonly string selfId = GetUserInfo.GetUserAsync().Result.platformUserId;
 
         public string name;
         public string id;
@@ -27,5 +26,6 @@ namespace PlayerSniperPlaylistCreator.PlayerList
         {
             return name;
         }
+
     }
 }

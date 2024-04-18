@@ -47,7 +47,7 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
             //updatePlayerList();
 
             // this crashes beat saber and i dont know why
-            Plugin.Log.Info(Player.selfId);
+            Plugin.Log.Info(Utils.Utils.userId);
         }
 
         private void updatePlayerList()
