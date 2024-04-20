@@ -41,5 +41,10 @@ namespace PlayerSniperPlaylistCreator.Playlist
                     break;
             }
         }
+
+        public string toString()
+        {
+            return characteristic + " " + name;
+        }
     }
 }

@@ -11,14 +11,10 @@ namespace PlayerSniperPlaylistCreator.Playlist
         public double pp;
         public double acc;
 
-        public Map(double pp, double acc, string hash, Difficulty difficulty) : base(hash, difficulty) {
+        public Map(double pp, double acc, string hash, Difficulty difficulty) : base(hash, difficulty)
+        {
             this.pp = pp;
             this.acc = acc;
-        }
-
-        //returns the song portion of the map object
-        public Song getSong() {
-            return new Song(hash, difficulties[0]);
         }
     }
 }

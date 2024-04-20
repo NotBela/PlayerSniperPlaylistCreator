@@ -14,6 +14,7 @@ namespace PlayerSniperPlaylistCreator.Playlist
         public Song(string hash, Difficulty difficulty)
         {
             this.hash = hash;
+            difficulties = new List<Difficulty>();
             difficulties.Add(difficulty);
         }
     }

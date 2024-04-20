@@ -14,8 +14,9 @@ namespace PlayerSniperPlaylistCreator.Playlist
         public List<Song> songs;
         public string image = null;
 
-        public Playlist(string playlistTitle) {
+        public Playlist(string playlistTitle, List<Song> songs) {
             this.playlistTitle = playlistTitle;
+            this.songs = songs;
         }
     }
 }

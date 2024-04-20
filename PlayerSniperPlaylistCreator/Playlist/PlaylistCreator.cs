@@ -11,10 +11,6 @@ namespace PlayerSniperPlaylistCreator.Playlist
 {
     internal class PlaylistCreator
     {
-        // depricated
-        // private RestClient client = new RestClient("https://scoresaber.com/");
-
-
         /*
          * Required Parameters:
          * - sinperID: the number part of the sniper's score saberlink
@@ -29,34 +25,144 @@ namespace PlayerSniperPlaylistCreator.Playlist
          *      - "sniperPP": the sniper's higher pp plays will be put first
          *      - "easiest": the closer the 2 scores are together the higher in the playlist order they will be
          */
-        public string createPlaylist(int sniperID, int targetID, string name, bool includeUnplayed = false, bool rankedOnly = true, string order = "targetPP")
+
+        //DONE, TESTED, good to go (except for async)
+        public static string createPlaylist(long sniperID, long targetID, string name, bool includeUnplayed = false, bool rankedOnly = true, string order = "targetPP")
         {
-            return "";
+            List<Map> maps = new List<Map>();
+            //get maps
+            List<Map> sniperMaps = getMaps(sniperID, rankedOnly);
+            List<Map> targetMaps = getMaps(targetID, rankedOnly);
+
+            //keep all of the maps where map is the same and target acc > sniper acc and add them to dictionary
+            foreach (Map map1 in targetMaps)
+            {
+                bool exist = false;
+                foreach (Map map2 in sniperMaps)
+                {
+                    if ((map1.hash == map2.hash) && (map1.difficulties[0].toString() == map2.difficulties[0].toString()))
+                    {
+                        exist = true;
+                        if (map1.acc > map2.acc)
+                        {
+                            //loop to check if map already exists in maps
+                            bool exist2 = false;
+                            foreach (Map x in maps)
+                            {
+                                if ((x.hash == map1.hash) && (x.difficulties[0].toString() == map1.difficulties[0].toString()))
+                                    exist2 = true;
+                            }
+                            if (!exist2)
+                            {
+                                if (order == "easiest")
+                                {
+                                    //if order is easiest the acc value becomes the acc difference
+                                    map1.acc = map1.acc - map2.acc;
+                                    //insert into maps with lowest map1 acc first
+                                    bool done = false;
+                                    for (int i = 0; i < maps.Count; i++)
+                                    {
+                                        if (maps[i].acc > map1.acc)
+                                        {
+                                            maps.Insert(i, map1);
+                                            done = true;
+                                            break;
+                                        }
+                                    }
+                                    if (!done)
+                                        maps.Add(map1);
+                                }
+                                else if (order == "sniperPP")
+                                {
+                                    //insert into maps with highest map2 pp first
+                                    bool done = false;
+                                    for (int i = 0; i < maps.Count; i++)
+                                    {
+                                        if (maps[i].pp < map2.pp)
+                                        {
+                                            maps.Insert(i, map2);
+                                            done = true;
+                                            break;
+                                        }
+                                    }
+                                    if (!done)
+                                        maps.Add(map2);
+                                }
+                                else if (order == "targetPP")
+                                    //no insertion here as targetPP SHOULD be the original order
+                                    maps.Add(map1);
+                            }
+                        }
+                    }
+                }
+                //add map even if it hasn't been played (only if includeUnplayed is true)
+                if (!exist && includeUnplayed)
+                {
+                    //loop to check if map already exists in maps
+                    bool exist2 = false;
+                    foreach (Map x in maps)
+                    {
+                        if ((x.hash == map1.hash) && (x.difficulties[0].toString() == map1.difficulties[0].toString()))
+                            exist2 = true;
+                    }
+                    if (!exist2)
+                    {
+                        if (order == "easiest")
+                        {
+                            //if order is easiest the acc value becomes -1 as there is no map2 to compare to
+                            map1.acc = -1;
+                            //it will just be added to the end of the playlist
+                            maps.Add(map1);
+                        }
+                        else if (order == "sniperPP")
+                        {
+                            //if order is sniperPP the pp value becomes -1 as there is no map2 pp value
+                            map1.pp = -1;
+                            //it will just be added to the end of the playlist
+                            maps.Add(map1);
+                        }
+                        else if (order == "targetPP")
+                            maps.Add(map1);
+                    }
+                }
+            }
+
+            //convert list<Map> into list<Song>
+            List<Song> songs = new List<Song>();
+            foreach (Map x in maps)
+                songs.Add(x);
+            //create playlist object
+            Playlist playlist = new Playlist(name, songs);
+
+            //return as json string
+            JsonSerializerOptions options = new JsonSerializerOptions();
+            options.IncludeFields = true;
+            return JsonSerializer.Serialize(playlist, options);
         }
 
         //returns a list of map objects for the given parameters
-        //DONE but NOT tested
-        private List<Map> getMaps(int id, bool rankedOnly)
+        private static List<Map> getMaps(long id, bool rankedOnly)
         {
             List<Map> maps = new List<Map>();
             RestResponse response1 = ApiHelper.getResponse("/api/player/" + id + "/full");
             JsonNode data1 = JsonSerializer.Deserialize<JsonNode>(response1.Content);
-            int total = (int)data1["scoreStats"]["rankedPlayCount"];
+            int total;
+            if (rankedOnly)
+                total = (int)data1["scoreStats"]["rankedPlayCount"];
+            else
+                total = (int)data1["scoreStats"]["totalPlayCount"];
             int maxPage = ((total - 1) / 100) + 2;
             for (int i = 1; i < maxPage; i++)
             {
-                int limit = 0;
+                int limit;
                 if (i < maxPage - 1)
-                {
                     limit = 100;
-                }
                 else
-                {
-                    // limit = total - ((maxPage - 2) * 100);
-                }
+                    limit = total - ((maxPage - 2) * 100);
                 RestResponse response2 = ApiHelper.getResponse("/api/player/" + id + "/scores?limit=" + limit + "&sort=top&page=" + i);
-                JsonArray data2 = JsonSerializer.Deserialize<JsonArray>(response2.Content);
-                foreach (JsonNode x in data2)
+                JsonNode data2 = JsonSerializer.Deserialize<JsonNode>(response2.Content);
+
+                foreach (JsonNode x in (JsonArray)data2["playerScores"])
                 {
                     double pp = (double)x["score"]["pp"];
                     double acc = (double)x["score"]["baseScore"] / (double)x["leaderboard"]["maxScore"];
@@ -64,7 +170,7 @@ namespace PlayerSniperPlaylistCreator.Playlist
                     Difficulty diff = new Difficulty(((string)x["leaderboard"]["difficulty"]["gameMode"]).Substring(4), (int)x["leaderboard"]["difficulty"]["difficulty"]);
                     maps.Add(new Map(pp, acc, hash, diff));
                 }
-                
+
             }
             return maps;
         }
