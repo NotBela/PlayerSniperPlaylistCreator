@@ -27,7 +27,7 @@ namespace PlayerSniperPlaylistCreator.Playlist
          */
 
         //DONE, TESTED, good to go (except for async)
-        public static string createPlaylist(long sniperID, long targetID, string name, bool includeUnplayed = false, bool rankedOnly = true, string order = "targetPP")
+        public static string createPlaylist(long sniperID, long targetID, string name, bool includeUnplayed = false, bool rankedOnly = true, string order = "targetPP", string image = null)
         {
             List<Map> maps = new List<Map>();
             //get maps
@@ -132,7 +132,7 @@ namespace PlayerSniperPlaylistCreator.Playlist
             foreach (Map x in maps)
                 songs.Add(x);
             //create playlist object
-            Playlist playlist = new Playlist(name, songs);
+            Playlist playlist = new Playlist(name, songs, image);
 
             //return as json string
             JsonSerializerOptions options = new JsonSerializerOptions();

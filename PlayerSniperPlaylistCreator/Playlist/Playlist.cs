@@ -12,11 +12,12 @@ namespace PlayerSniperPlaylistCreator.Playlist
         public string playlistAuthor = null;
         public string playlistDiscription = null;
         public List<Song> songs;
-        public string image = null;
+        public string image;
 
-        public Playlist(string playlistTitle, List<Song> songs) {
+        public Playlist(string playlistTitle, List<Song> songs, string image) {
             this.playlistTitle = playlistTitle;
             this.songs = songs;
+            this.image = image;
         }
     }
 }

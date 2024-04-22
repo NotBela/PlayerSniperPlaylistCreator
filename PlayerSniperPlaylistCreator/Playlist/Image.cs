@@ -5,7 +5,7 @@ namespace PlayerSniperPlaylistCreator.Playlist
 	internal class Image
 	{
 
-		public byte[] imageInQuestion;
+		private byte[] imageInQuestion;
 
 		public Image(byte[] imageInQuestion)
 		{
