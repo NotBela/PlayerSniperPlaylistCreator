@@ -26,10 +26,11 @@ namespace PlayerSniperPlaylistCreator.Playlist
          *      - "targetPP": the target's higher pp plays will be put first
          *      - "sniperPP": the sniper's higher pp plays will be put first
          *      - "easiest": the closer the 2 scores are together the higher in the playlist order they will be
+         * - image (default: null): the image for the playlist cover in base64
          */
 
-        //DONE, TESTED, good to go (except for async)
-        public static string createPlaylist(long sniperID, long targetID, string name, bool includeUnplayed = false, bool rankedOnly = true, string order = "targetPP", string image = null)
+        //DONE, TESTED, good to go
+        public static async Task<string> createPlaylist(long sniperID, long targetID, string name, bool includeUnplayed = false, bool rankedOnly = true, string order = "targetPP", string image = null)
         {
             List<Map> maps = new List<Map>();
             //get maps
