@@ -172,9 +172,9 @@ namespace PlayerSniperPlaylistCreator.Playlist
                 else
                     limit = total - ((maxPage - 2) * 100);
                 HttpResponseMessage response2 = ApiHelper.getResponse("/api/player/" + id + "/scores?limit=" + limit + "&sort=top&page=" + i);
-                JObject data2 = JObject.Parse(Utils.Utils.getResponseData(response1));
+                JArray data2 = (JArray)JObject.Parse(Utils.Utils.getResponseData(response2))["playerScores"];
 
-                foreach (JObject x in data2.Children().ToList())
+                foreach (JObject x in data2)
                 {
                     Plugin.Log.Info("hello you got to the second for loop");
                     double pp = (double)x["score"]["pp"]; 
