@@ -1,11 +1,13 @@
-﻿using RestSharp;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Text;
-using System.Text.Json.Nodes;
-using System.Text.Json;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace PlayerSniperPlaylistCreator.Playlist
 {
@@ -135,17 +137,26 @@ namespace PlayerSniperPlaylistCreator.Playlist
             Playlist playlist = new Playlist(name, songs, image);
 
             //return as json string
+            /*
             JsonSerializerOptions options = new JsonSerializerOptions();
             options.IncludeFields = true;
-            return JsonSerializer.Serialize(playlist, options);
+            // return JsonSerializer.Serialize(playlist, options);
+            */
+
+            JsonSerializerSettings settings = new JsonSerializerSettings();
+            settings.NullValueHandling = NullValueHandling.Include;
+
+            return JsonConvert.SerializeObject(playlist, settings);
+
         }
 
         //returns a list of map objects for the given parameters
         private static List<Map> getMaps(long id, bool rankedOnly)
         {
             List<Map> maps = new List<Map>();
-            RestResponse response1 = ApiHelper.getResponse("/api/player/" + id + "/full");
-            JsonNode data1 = JsonSerializer.Deserialize<JsonNode>(response1.Content);
+            HttpResponseMessage response1 = ApiHelper.getResponse("/api/player/" + id + "/full");
+
+            JObject data1 = JsonConvert.DeserializeObject<JObject>(Utils.Utils.getResponseData(response1));
             int total;
             if (rankedOnly)
                 total = (int)data1["scoreStats"]["rankedPlayCount"];
@@ -154,17 +165,19 @@ namespace PlayerSniperPlaylistCreator.Playlist
             int maxPage = ((total - 1) / 100) + 2;
             for (int i = 1; i < maxPage; i++)
             {
+                Plugin.Log.Info("hello you got to the first for loop");
                 int limit;
                 if (i < maxPage - 1)
                     limit = 100;
                 else
                     limit = total - ((maxPage - 2) * 100);
-                RestResponse response2 = ApiHelper.getResponse("/api/player/" + id + "/scores?limit=" + limit + "&sort=top&page=" + i);
-                JsonNode data2 = JsonSerializer.Deserialize<JsonNode>(response2.Content);
+                HttpResponseMessage response2 = ApiHelper.getResponse("/api/player/" + id + "/scores?limit=" + limit + "&sort=top&page=" + i);
+                JObject data2 = JObject.Parse(Utils.Utils.getResponseData(response1));
 
-                foreach (JsonNode x in (JsonArray)data2["playerScores"])
+                foreach (JObject x in data2.Children().ToList())
                 {
-                    double pp = (double)x["score"]["pp"];
+                    Plugin.Log.Info("hello you got to the second for loop");
+                    double pp = (double)x["score"]["pp"]; 
                     double acc = (double)x["score"]["baseScore"] / (double)x["leaderboard"]["maxScore"];
                     string hash = (string)x["leaderboard"]["songHash"];
                     Difficulty diff = new Difficulty(((string)x["leaderboard"]["difficulty"]["gameMode"]).Substring(4), (int)x["leaderboard"]["difficulty"]["difficulty"]);

@@ -9,9 +9,12 @@ using BeatSaberMarkupLanguage.Components;
 using BeatSaberMarkupLanguage.Tags;
 using PlayerSniperPlaylistCreator.Configuration;
 using PlayerSniperPlaylistCreator.PlayerList;
-using Newtonsoft.Json;
 using BeatSaberMarkupLanguage.Tags.Settings;
 using BeatSaberMarkupLanguage.Components.Settings;
+using PlayerSniperPlaylistCreator.Playlist;
+using System.IO;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace PlayerSniperPlaylistCreator.ViewControllers
 {
@@ -43,11 +46,9 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
         [UIAction("testButtonOnClick")]
         private void testButtonOnClick()
         {
-            //PlayerWriter.writeToJson(new Player("84004803840834", "test thin g"));
-            //updatePlayerList();
+            var hi = PlaylistCreator.createPlaylist(76561199275799770, 76561199003743737, "hi");
 
-            // this crashes beat saber and i dont know why
-            Plugin.Log.Info(Utils.Utils.userId);
+            Plugin.Log.Info(hi);
         }
 
         private void updatePlayerList()

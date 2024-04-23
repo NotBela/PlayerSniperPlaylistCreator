@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using BS_Utils;
 using BS_Utils.Gameplay;
@@ -15,7 +14,6 @@ namespace PlayerSniperPlaylistCreator.PlayerList
         public string name;
         public string id;
 
-        [JsonConstructor]
         public Player(string id, string name) // ADD DEFAULT HERE THAT GETS NAME AUTOMATICALLY
         {
             this.name = name;

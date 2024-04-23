@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace PlayerSniperPlaylistCreator.Utils
 {
@@ -16,6 +17,11 @@ namespace PlayerSniperPlaylistCreator.Utils
             var userInfo = await BS_Utils.Gameplay.GetUserInfo.GetUserAsync();
 
             return userInfo;
+        }
+
+        public static string getResponseData(HttpResponseMessage response)
+        {
+            return response.Content.ReadAsStringAsync().Result;
         }
     }
 }
