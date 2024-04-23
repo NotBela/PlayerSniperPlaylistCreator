@@ -30,7 +30,7 @@ namespace PlayerSniperPlaylistCreator.Playlist
          */
 
         //DONE, TESTED, good to go
-        public static async Task<string> createPlaylist(long sniperID, long targetID, string name, bool includeUnplayed = false, bool rankedOnly = true, string order = "targetPP", string image = null)
+        public static async Task<Playlist> createPlaylist(long sniperID, long targetID, string name, bool includeUnplayed = false, bool rankedOnly = true, string order = "targetPP", string image = null)
         {
             List<Map> maps = new List<Map>();
             //get maps
@@ -144,10 +144,10 @@ namespace PlayerSniperPlaylistCreator.Playlist
             // return JsonSerializer.Serialize(playlist, options);
             */
 
-            JsonSerializerSettings settings = new JsonSerializerSettings();
-            settings.NullValueHandling = NullValueHandling.Include;
+            // JsonSerializerSettings settings = new JsonSerializerSettings();
+            // settings.NullValueHandling = NullValueHandling.Include;
 
-            return JsonConvert.SerializeObject(playlist, settings);
+            return playlist; // JsonConvert.SerializeObject(playlist, settings);
 
         }
 

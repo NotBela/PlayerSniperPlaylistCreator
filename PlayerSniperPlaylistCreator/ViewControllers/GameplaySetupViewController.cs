@@ -48,7 +48,9 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
         {
             var hi = await PlaylistCreator.createPlaylist(76561199275799770, 76561199003743737, "hi");
 
-            Plugin.Log.Info(hi);
+            Utils.Utils.writePlaylistToFile(hi);
+
+            
         }
 
         private void updatePlayerList()

@@ -1,4 +1,7 @@
-﻿using System.Net.Http;
+﻿using IPA.Utilities;
+using PlayerSniperPlaylistCreator.Playlist;
+using System.IO;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace PlayerSniperPlaylistCreator.Utils
@@ -6,6 +9,7 @@ namespace PlayerSniperPlaylistCreator.Utils
     public static class Utils
     {
         public static readonly string userId;
+        public static readonly string path = UnityGame.InstallPath;
 
         static Utils()
         {
@@ -22,6 +26,11 @@ namespace PlayerSniperPlaylistCreator.Utils
         public static string getResponseData(HttpResponseMessage response)
         {
             return response.Content.ReadAsStringAsync().Result;
+        }
+
+        public static void writePlaylistToFile(Playlist.Playlist playlist)
+        {
+            File.WriteAllText($"{path}\\Playlists\\{playlist.playlistTitle}.bplist", playlist.toJson());
         }
     }
 }

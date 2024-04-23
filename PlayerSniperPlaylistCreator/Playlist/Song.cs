@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PlayerSniperPlaylistCreator.Playlist
 {
-    internal class Song
+    public class Song
     {
         public string hash;
         public List<Difficulty> difficulties;

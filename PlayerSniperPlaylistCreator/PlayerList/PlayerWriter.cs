@@ -11,7 +11,7 @@ namespace PlayerSniperPlaylistCreator.PlayerList
 {
     internal static class PlayerWriter
     {
-        public static readonly string path = $"{UnityGame.InstallPath}\\UserData\\PlayerSniperPlaylistCreator\\";
+        public static readonly string path = Path.Combine(UnityGame.InstallPath, "UserData\\PlayerSniperPlaylistCreator\\");
 
         public static void writeToJson(Player player)
         {
