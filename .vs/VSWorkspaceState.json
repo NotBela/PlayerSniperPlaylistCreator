@@ -2,10 +2,11 @@
   "ExpandedNodes": [
     "",
     "\\PlayerSniperPlaylistCreator",
-    "\\PlayerSniperPlaylistCreator\\PlayerList",
+    "\\PlayerSniperPlaylistCreator\\ApiHelper",
     "\\PlayerSniperPlaylistCreator\\Playlist",
+    "\\PlayerSniperPlaylistCreator\\Utils",
     "\\PlayerSniperPlaylistCreator\\ViewControllers"
   ],
-  "SelectedNode": "\\PlayerSniperPlaylistCreator\\PlayerList\\PlayerWriter.cs",
+  "SelectedNode": "\\PlayerSniperPlaylistCreator.sln",
   "PreviewInSolutionExplorer": false
 }

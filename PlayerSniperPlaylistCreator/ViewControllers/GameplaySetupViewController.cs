@@ -44,9 +44,9 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
         }
 
         [UIAction("testButtonOnClick")]
-        private void testButtonOnClick()
+        private async void testButtonOnClick()
         {
-            var hi = PlaylistCreator.createPlaylist(76561199275799770, 76561199003743737, "hi");
+            var hi = await PlaylistCreator.createPlaylist(76561199275799770, 76561199003743737, "hi");
 
             Plugin.Log.Info(hi);
         }

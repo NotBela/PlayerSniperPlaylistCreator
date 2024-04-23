@@ -19,9 +19,9 @@ namespace PlayerSniperPlaylistCreator
             client.BaseAddress = new System.Uri("https://scoresaber.com");
         }
 
-        public static HttpResponseMessage getResponse(string url)
+        public static async Task<HttpResponseMessage> getResponse(string url)
         {
-            var response = client.GetAsync(url).Result;
+            var response = await client.GetAsync(url);
 
             if ((int) response.StatusCode / 100 != 2) 
                 throw new Exception("Got status code: " + response.StatusCode + ", from request: " + url);
@@ -29,9 +29,9 @@ namespace PlayerSniperPlaylistCreator
             return response;
         }
 
-        public static byte[] downloadData(string url) 
+        public static async Task<byte[]> downloadData(string url) 
         {
-            var response = client.GetByteArrayAsync(url).Result;
+            var response = await client.GetByteArrayAsync(url);
 
             return response;
         }

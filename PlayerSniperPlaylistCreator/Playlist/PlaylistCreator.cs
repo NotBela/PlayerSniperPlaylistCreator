@@ -34,8 +34,8 @@ namespace PlayerSniperPlaylistCreator.Playlist
         {
             List<Map> maps = new List<Map>();
             //get maps
-            List<Map> sniperMaps = getMaps(sniperID, rankedOnly);
-            List<Map> targetMaps = getMaps(targetID, rankedOnly);
+            List<Map> sniperMaps = await Task.Run(() => getMaps(sniperID, rankedOnly));
+            List<Map> targetMaps = await Task.Run(() => getMaps(targetID, rankedOnly));
 
             //keep all of the maps where map is the same and target acc > sniper acc and add them to dictionary
             foreach (Map map1 in targetMaps)
@@ -152,10 +152,10 @@ namespace PlayerSniperPlaylistCreator.Playlist
         }
 
         //returns a list of map objects for the given parameters
-        private static List<Map> getMaps(long id, bool rankedOnly)
+        private static async Task<List<Map>> getMaps(long id, bool rankedOnly)
         {
             List<Map> maps = new List<Map>();
-            HttpResponseMessage response1 = ApiHelper.getResponse("/api/player/" + id + "/full");
+            HttpResponseMessage response1 = await ApiHelper.getResponse("/api/player/" + id + "/full");
 
             JObject data1 = JsonConvert.DeserializeObject<JObject>(Utils.Utils.getResponseData(response1));
             int total;
@@ -166,13 +166,13 @@ namespace PlayerSniperPlaylistCreator.Playlist
             int maxPage = ((total - 1) / 100) + 2;
             for (int i = 1; i < maxPage; i++)
             {
-                Plugin.Log.Info("hello you got to the first for loop");
+                // Plugin.Log.Info("hello you got to the first for loop");
                 int limit;
                 if (i < maxPage - 1)
                     limit = 100;
                 else
                     limit = total - ((maxPage - 2) * 100);
-                HttpResponseMessage response2 = ApiHelper.getResponse("/api/player/" + id + "/scores?limit=" + limit + "&sort=top&page=" + i);
+                HttpResponseMessage response2 = await ApiHelper.getResponse("/api/player/" + id + "/scores?limit=" + limit + "&sort=top&page=" + i);
                 JArray data2 = (JArray)JObject.Parse(Utils.Utils.getResponseData(response2))["playerScores"];
 
                 foreach (JObject x in data2)
