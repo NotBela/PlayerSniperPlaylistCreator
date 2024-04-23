@@ -177,7 +177,6 @@ namespace PlayerSniperPlaylistCreator.Playlist
 
                 foreach (JObject x in data2)
                 {
-                    Plugin.Log.Info("hello you got to the second for loop");
                     double pp = (double)x["score"]["pp"]; 
                     double acc = (double)x["score"]["baseScore"] / (double)x["leaderboard"]["maxScore"];
                     string hash = (string)x["leaderboard"]["songHash"];
