@@ -1,4 +1,5 @@
 ﻿using IPA.Utilities;
+using Newtonsoft.Json.Linq;
 using PlayerSniperPlaylistCreator.Playlist;
 using System.IO;
 using System.Net.Http;
@@ -8,20 +9,7 @@ namespace PlayerSniperPlaylistCreator.Utils
 {
     public static class Utils
     {
-        public static readonly string userId;
         public static readonly string path = UnityGame.InstallPath;
-
-        static Utils()
-        {
-            userId = GetUserInfo().Id.ToString();
-        }
-
-        private static async Task<UserInfo> GetUserInfo()
-        {
-            var userInfo = await BS_Utils.Gameplay.GetUserInfo.GetUserAsync();
-
-            return userInfo;
-        }
 
         public static string getResponseData(HttpResponseMessage response)
         {
@@ -32,5 +20,23 @@ namespace PlayerSniperPlaylistCreator.Utils
         {
             File.WriteAllText($"{path}\\Playlists\\{playlist.playlistTitle}.bplist", playlist.toJson());
         }
+
+        public static async Task<JObject> getScoresaberPlayerAsync(long id)
+        {
+            JObject player = JObject.Parse(getResponseData(await ApiHelper.getResponse($"/api/player/{id}/full")));
+
+            return player;
+        }
+
+        public static async Task<Image> getScoresaberPfpAsync(long id)
+        {
+            var player = await getScoresaberPlayerAsync(id);
+
+            string pfpUrl = player.GetValue("profilePicture").ToString();
+
+            return new Image(await ApiHelper.downloadData(pfpUrl));
+        }
+
+
     }
 }

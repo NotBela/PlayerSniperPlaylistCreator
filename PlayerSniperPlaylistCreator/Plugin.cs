@@ -5,6 +5,7 @@ using IPA.Config;
 using IPA.Config.Stores;
 using PlayerSniperPlaylistCreator.Configuration;
 using PlayerSniperPlaylistCreator.PlayerList;
+using PlayerSniperPlaylistCreator.ViewControllers;
 using System;
 using System.Collections;
 using System.Collections.Generic;

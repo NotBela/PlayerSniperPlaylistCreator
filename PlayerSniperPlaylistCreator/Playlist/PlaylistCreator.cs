@@ -30,12 +30,12 @@ namespace PlayerSniperPlaylistCreator.Playlist
          */
 
         //DONE, TESTED, good to go
-        public static async Task<Playlist> createPlaylist(long sniperID, long targetID, string name, bool includeUnplayed = false, bool rankedOnly = true, string order = "targetPP", string image = null)
+        public static async Task<Playlist> createPlaylist(long sniperID, long targetID, string name, Image image, bool includeUnplayed = false, bool rankedOnly = true, string order = "targetPP")
         {
             List<Map> maps = new List<Map>();
             //get maps
-            List<Map> sniperMaps = await Task.Run(() => getMaps(sniperID, rankedOnly));
-            List<Map> targetMaps = await Task.Run(() => getMaps(targetID, rankedOnly));
+            List<Map> sniperMaps = await getMaps(sniperID, rankedOnly);
+            List<Map> targetMaps = await getMaps(targetID, rankedOnly);
 
             //keep all of the maps where map is the same and target acc > sniper acc and add them to dictionary
             foreach (Map map1 in targetMaps)
@@ -135,7 +135,9 @@ namespace PlayerSniperPlaylistCreator.Playlist
             foreach (Map x in maps)
                 songs.Add(x);
             //create playlist object
-            Playlist playlist = new Playlist(name, songs, image);
+            string imageAsBase64 = $"data:image/jpeg;base64,{image.convertToBase64()}";
+
+            Playlist playlist = new Playlist(name, songs, imageAsBase64);
 
             //return as json string
             /*
@@ -183,7 +185,6 @@ namespace PlayerSniperPlaylistCreator.Playlist
                     Difficulty diff = new Difficulty(((string)x["leaderboard"]["difficulty"]["gameMode"]).Substring(4), (int)x["leaderboard"]["difficulty"]["difficulty"]);
                     maps.Add(new Map(pp, acc, hash, diff));
                 }
-
             }
             return maps;
         }

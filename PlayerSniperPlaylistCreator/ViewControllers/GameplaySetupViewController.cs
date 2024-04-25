@@ -15,6 +15,7 @@ using PlayerSniperPlaylistCreator.Playlist;
 using System.IO;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using Loader = SongCore.Loader;
 
 namespace PlayerSniperPlaylistCreator.ViewControllers
 {
@@ -46,11 +47,18 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
         [UIAction("testButtonOnClick")]
         private async void testButtonOnClick()
         {
-            var hi = await PlaylistCreator.createPlaylist(76561199275799770, 76561199003743737, "hi");
+            long sniperID = 76561199003743737;
+            long targetID = 76561199367121661;
 
-            Utils.Utils.writePlaylistToFile(hi);
+            var sniperData = await Utils.Utils.getScoresaberPlayerAsync(sniperID);
+            var targetData = await Utils.Utils.getScoresaberPlayerAsync(targetID);
 
+            string targetName = targetData.GetValue("name").ToString();
+            Image targetPfp = await Utils.Utils.getScoresaberPfpAsync(targetID);
+            var playlist = await PlaylistCreator.createPlaylist(sniperID, targetID, $"{targetName} Snipe Playlist", targetPfp);
             
+            Utils.Utils.writePlaylistToFile(playlist);
+            Loader.Instance.RefreshSongs();
         }
 
         private void updatePlayerList()
