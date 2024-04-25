@@ -16,12 +16,16 @@ using System.IO;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using Loader = SongCore.Loader;
+using BeatSaberMarkupLanguage.Parser;
 
 namespace PlayerSniperPlaylistCreator.ViewControllers
 {
     [ViewDefinition("PlayerSniperPlaylistCreator.ViewControllers.GameplaySetupViewController.bsml")]
     public class GameplaySetupViewController
     {
+        [UIParams]
+        private BSMLParserParams parserParams = null;
+
         [UIComponent("players")]
         private DropDownListSetting playersDropdown = new DropDownListSetting();
 
@@ -44,8 +48,8 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
             }
         }
 
-        [UIAction("testButtonOnClick")]
-        private async void testButtonOnClick()
+        [UIAction("createButtonOnClick")]
+        private async void createButtonOnClick()
         {
             long sniperID = 76561199003743737;
             long targetID = 76561199367121661;
@@ -59,6 +63,72 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
             
             Utils.Utils.writePlaylistToFile(playlist);
             Loader.Instance.RefreshSongs();
+        }
+
+        #region Playlist Settings Modal
+
+        [UIValue("includeUnplayedValue")]
+        private bool includeUnplayedValue
+        {
+            get { return PluginConfig.Instance.includeUnplayed; }
+            set { PluginConfig.Instance.includeUnplayed = value; }
+        }
+
+        [UIValue("rankedOnlyValue")]
+        private bool rankedOnlyValue
+        {
+            get { return PluginConfig.Instance.rankedOnly; }
+            set { PluginConfig.Instance.rankedOnly = value; }
+        }
+
+        [UIValue("playlistOrderList")]
+        private List<object> playlistOrderList = new List<object>() { "Target Highest", "Your Highest", "Closest" };
+
+        [UIValue("orderValue")]
+        private object orderValue
+        {
+            get
+            {
+                switch(PluginConfig.Instance.playlistOrder)
+                {
+                    case "targetPP":
+                        return "Target Highest";
+                    case "sniperPP":
+                        return "Your Highest";
+                    default:
+                        return "Closest";
+                }
+            }
+
+            set
+            {
+                switch(value)
+                {
+                    case "Target Highest":
+                        PluginConfig.Instance.playlistOrder = "targetPP";
+                        break;
+                    case "Your Highest":
+                        PluginConfig.Instance.playlistOrder = "sniperPP";
+                        break;
+                    default:
+                        PluginConfig.Instance.playlistOrder = "easiest";
+                        break;
+                }
+            }
+        }
+
+        [UIAction("settingsCloseButtonClicked")]
+        private void settingsCloseButtonClicked()
+        {
+            parserParams.EmitEvent("settingsModalHide");
+        }
+
+        #endregion
+
+        [UIAction("settingsButtonClick")]
+        private void settingsButtonClick()
+        {
+            parserParams.EmitEvent("settingsModalShow");
         }
 
         private void updatePlayerList()

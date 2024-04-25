@@ -1,13 +1,28 @@
 ﻿<horizontal>
 	<vertical>
-		<dropdown-list-setting
-			id='players'
-			text='Selected Player'
-			value='selectedPlayer'
-			options='playerList'
-			apply-on-change='true'
-		/>
+		<horizontal>
+			<dropdown-list-setting
+				id='players'
+				text='Selected Player'
+				value='selectedPlayer'
+				options='playerList'
+				apply-on-change='true'
+			/>
+		</horizontal>
 
-		<button on-click='testButtonOnClick' id='testButton' text='test button'/>
+		<button on-click='settingsButtonClick' id='settingsButton' text='Playlist Settings' pad-bottom='20'/>
+
+		<primary-button on-click='createButtonOnClick' id='createButton' text='Generate Playlist'/>
+
+		<modal size-delta-x='100' size-delta-y='35' id='settingsModal' show-event='settingsModalShow' click-off-closes='true' hide-event='settingsModalHide'  move-to-center='true'>
+			<horizontal bg='round-rect-panel'>
+				<vertical>
+					<checkbox-setting id='includeUnplayed' value='includeUnplayedValue' text='Include Unplayed Maps' apply-on-change='true'/>
+					<checkbox-setting id='rankedOnly' value='rankedOnlyValue' text='Ranked Only' apply-on-change='true'/>
+					<list-setting id='order' value='orderValue' choices='playlistOrderList' text='Playlist Order' apply-on-change='true' />
+					<button text='Close' id='settingsCloseButton' on-click='settingsCloseButtonClicked'/>
+				</vertical>
+			</horizontal>
+		</modal>
 	</vertical>
 </horizontal>
