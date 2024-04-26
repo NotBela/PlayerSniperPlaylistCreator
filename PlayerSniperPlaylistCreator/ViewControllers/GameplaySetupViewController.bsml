@@ -24,5 +24,14 @@
 				</vertical>
 			</horizontal>
 		</modal>
+
+		<modal id='loadingModal' show-event='loadingModalShow' hide-event='loadingModalHide' click-off-closes='false' move-to-center='true'>
+			<horizontal bg='round-rect-panel'>
+				<vertical>
+					<text text='Loading...' />
+					<loading/>
+				</vertical>
+			</horizontal>
+		</modal>
 	</vertical>
 </horizontal>

@@ -131,6 +131,8 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
             parserParams.EmitEvent("settingsModalShow");
         }
 
+
+
         private void updatePlayerList()
         {
             playersDropdown.values = new List<object>(sanatizePlayerList());
