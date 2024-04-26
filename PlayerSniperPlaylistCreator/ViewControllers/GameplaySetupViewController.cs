@@ -120,7 +120,7 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
         [UIAction("settingsCloseButtonClicked")]
         private void settingsCloseButtonClicked()
         {
-            parserParams.EmitEvent("settingsModalHide");
+            hideAllModals();
         }
 
         #endregion
@@ -128,10 +128,16 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
         [UIAction("settingsButtonClick")]
         private void settingsButtonClick()
         {
-            parserParams.EmitEvent("settingsModalShow");
+            hideAllModals("settingsModalShow");
         }
 
+        private void hideAllModals(string modalToShow = null)
+        {
+            parserParams.EmitEvent("loadingModalHide");
+            parserParams.EmitEvent("settingsModalHide");
 
+            if (modalToShow != null) parserParams.EmitEvent(modalToShow);
+        }
 
         private void updatePlayerList()
         {
