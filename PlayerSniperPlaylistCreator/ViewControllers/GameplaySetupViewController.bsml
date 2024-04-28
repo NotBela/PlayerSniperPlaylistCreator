@@ -25,7 +25,7 @@
 			</horizontal>
 		</modal>
 
-		<modal id='loadingModal' show-event='loadingModalShow' hide-event='loadingModalHide' click-off-closes='false' move-to-center='true'>
+		<modal size-delta-x='50' size-delta-y='30' id='loadingModal' show-event='loadingModalShow' hide-event='loadingModalHide' click-off-closes='false' move-to-center='true'>
 			<horizontal bg='round-rect-panel'>
 				<vertical>
 					<text text='Loading...' />

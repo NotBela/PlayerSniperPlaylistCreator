@@ -51,6 +51,8 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
         [UIAction("createButtonOnClick")]
         private async void createButtonOnClick()
         {
+            hideAllModals("loadingModalShow");
+
             long sniperID = 76561199003743737;
             long targetID = 76561199367121661;
 
@@ -63,6 +65,8 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
             
             Utils.Utils.writePlaylistToFile(playlist);
             Loader.Instance.RefreshSongs();
+
+            hideAllModals();
         }
 
         #region Playlist Settings Modal
@@ -165,8 +169,9 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
 
                 return returnList;
             }
-            catch (Exception e)
+            catch (Exception)
             {
+                // really dumb but idk a better way
                 return new List<object> { "No players added!" };
             }
             
