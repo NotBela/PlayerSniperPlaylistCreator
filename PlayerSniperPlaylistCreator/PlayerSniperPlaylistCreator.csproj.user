@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project>
   <PropertyGroup>
-    <BeatSaberDir>C:\Users\Bela Varga\BSManager\BSInstances\moddevel</BeatSaberDir>
+    <BeatSaberDir>C:\Beat Saber\BSManager\BSInstances\ModDevel</BeatSaberDir>
     <ProjectView>ProjectFiles</ProjectView>
     <ReferencePath>C:\Beat Saber\BSManager\BSInstances\Mod Devel\Beat Saber_Data\Managed;C:\Beat Saber\BSManager\BSInstances\Mod Devel\Libs;C:\Beat Saber\BSManager\BSInstances\Mod Devel\Plugins</ReferencePath>
     <!-- Path to your Beat Saber install, only set if different from BeatSaberDir. -->

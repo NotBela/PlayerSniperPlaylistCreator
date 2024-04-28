@@ -148,20 +148,28 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
         // needs to be static or the program bitches about NOTHING !!!!!
         private static List<object> sanatizePlayerList()
         {
-            var allPlayers = PlayerWriter.getAllPlayers();
-
-            // cant convert a list of players to a list of objects implicitly apparently so this needs to be here :(
-
-            List<object> returnList = new List<object>();
-
-            foreach(var player in allPlayers)
+            try
             {
-                returnList.Add(player);
+                var allPlayers = PlayerWriter.getAllPlayers();
+
+                // cant convert a list of players to a list of objects implicitly apparently so this needs to be here :(
+
+                List<object> returnList = new List<object>();
+
+                foreach (object player in allPlayers)
+                {
+                    returnList.Add(player);
+                }
+
+                if (!Directory.Exists(Path.Combine(Utils.Utils.path, "\\PlayerSniperPlaylistCreator")) || returnList.Count == 0) return new List<object> { "No players added!" };
+
+                return returnList;
             }
-
-            if (returnList.Count == 0) return new List<object> { "No players added!" };
-
-            return returnList;
+            catch (Exception e)
+            {
+                return new List<object> { "No players added!" };
+            }
+            
         }
 
     }
