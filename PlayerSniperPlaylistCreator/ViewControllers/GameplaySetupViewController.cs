@@ -150,8 +150,6 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
         {
             var allPlayers = PlayerWriter.getAllPlayers();
 
-            if (PlayerWriter.getAllPlayers().Count == 0) return new List<object> {"No players added!"};
-
             // cant convert a list of players to a list of objects implicitly apparently so this needs to be here :(
 
             List<object> returnList = new List<object>();
@@ -160,6 +158,8 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
             {
                 returnList.Add(player);
             }
+
+            if (returnList.Count == 0) return new List<object> { "No players added!" };
 
             return returnList;
         }
