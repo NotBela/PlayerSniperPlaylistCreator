@@ -17,6 +17,8 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using Loader = SongCore.Loader;
 using BeatSaberMarkupLanguage.Parser;
+using System.Runtime.CompilerServices;
+using System.Security.Policy;
 
 namespace PlayerSniperPlaylistCreator.ViewControllers
 {
@@ -48,6 +50,33 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
             }
         }
 
+        #region add player modals
+
+        [UIAction("addPlayerButtonClick")]
+        private void addPlayerButtonClick()
+        {
+            hideAllModals("keyboardShow");
+        }
+
+        [UIValue("keyboardText")]
+        private string keyboardText { get; set; }
+
+        [UIAction("keyboardOnEnter")]
+        private async void keyboardOnEnter()
+        {
+            hideAllModals("loadingModalShow");
+
+            JArray playerArr = (JArray) JObject.Parse(Utils.Utils.getResponseData(await ApiHelper.getResponse($"/api/players?search={keyboardText}")))["players"];
+
+            int positionInArr = 0;
+
+            hideAllModals("playerListModalShow");
+        }
+
+        #endregion
+
+
+        #region modals
         [UIAction("createButtonOnClick")]
         private async void createButtonOnClick()
         {
@@ -66,6 +95,12 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
             Utils.Utils.writePlaylistToFile(playlist);
             Loader.Instance.RefreshSongs();
 
+            hideAllModals("successModalShow");
+        }
+        
+        [UIAction("successOkButtonClick")]
+        private void successOkButtonClick()
+        {
             hideAllModals();
         }
 
@@ -139,9 +174,14 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
         {
             parserParams.EmitEvent("loadingModalHide");
             parserParams.EmitEvent("settingsModalHide");
+            parserParams.EmitEvent("successModalHide");
+            parserParams.EmitEvent("keyboardHide");
+            parserParams.EmitEvent("playerListModalHide");
 
             if (modalToShow != null) parserParams.EmitEvent(modalToShow);
         }
+
+        #endregion modals
 
         private void updatePlayerList()
         {

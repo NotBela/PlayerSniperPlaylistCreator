@@ -3,20 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\TheRa\\source\\repos\\PlayerSniperPlaylistCreator\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A5310C0E-BCB6-42AF-AA28-3A16A42C64A1}|PlayerSniperPlaylistCreator\\PlayerSniperPlaylistCreator.csproj|C:\\Users\\TheRa\\source\\repos\\PlayerSniperPlaylistCreator\\PlayerSniperPlaylistCreator\\ViewControllers\\GameplaySetupViewController.bsml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
-      "RelativeMoniker": "D:0:0:{A5310C0E-BCB6-42AF-AA28-3A16A42C64A1}|PlayerSniperPlaylistCreator\\PlayerSniperPlaylistCreator.csproj|solutionrelative:PlayerSniperPlaylistCreator\\ViewControllers\\GameplaySetupViewController.bsml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A5310C0E-BCB6-42AF-AA28-3A16A42C64A1}|PlayerSniperPlaylistCreator\\PlayerSniperPlaylistCreator.csproj|c:\\users\\thera\\source\\repos\\playersniperplaylistcreator\\playersniperplaylistcreator\\viewcontrollers\\gameplaysetupviewcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A5310C0E-BCB6-42AF-AA28-3A16A42C64A1}|PlayerSniperPlaylistCreator\\PlayerSniperPlaylistCreator.csproj|solutionrelative:playersniperplaylistcreator\\viewcontrollers\\gameplaysetupviewcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A5310C0E-BCB6-42AF-AA28-3A16A42C64A1}|PlayerSniperPlaylistCreator\\PlayerSniperPlaylistCreator.csproj|c:\\users\\thera\\source\\repos\\playersniperplaylistcreator\\playersniperplaylistcreator\\configuration\\pluginconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A5310C0E-BCB6-42AF-AA28-3A16A42C64A1}|PlayerSniperPlaylistCreator\\PlayerSniperPlaylistCreator.csproj|solutionrelative:playersniperplaylistcreator\\configuration\\pluginconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A5310C0E-BCB6-42AF-AA28-3A16A42C64A1}|PlayerSniperPlaylistCreator\\PlayerSniperPlaylistCreator.csproj|C:\\Users\\TheRa\\source\\repos\\PlayerSniperPlaylistCreator\\PlayerSniperPlaylistCreator\\ViewControllers\\GameplaySetupViewController.bsml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{A5310C0E-BCB6-42AF-AA28-3A16A42C64A1}|PlayerSniperPlaylistCreator\\PlayerSniperPlaylistCreator.csproj|solutionrelative:PlayerSniperPlaylistCreator\\ViewControllers\\GameplaySetupViewController.bsml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A5310C0E-BCB6-42AF-AA28-3A16A42C64A1}|PlayerSniperPlaylistCreator\\PlayerSniperPlaylistCreator.csproj|c:\\users\\thera\\source\\repos\\playersniperplaylistcreator\\playersniperplaylistcreator\\playlist\\playlistcreator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A5310C0E-BCB6-42AF-AA28-3A16A42C64A1}|PlayerSniperPlaylistCreator\\PlayerSniperPlaylistCreator.csproj|solutionrelative:playersniperplaylistcreator\\playlist\\playlistcreator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A5310C0E-BCB6-42AF-AA28-3A16A42C64A1}|PlayerSniperPlaylistCreator\\PlayerSniperPlaylistCreator.csproj|c:\\users\\thera\\source\\repos\\playersniperplaylistcreator\\playersniperplaylistcreator\\configuration\\pluginconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A5310C0E-BCB6-42AF-AA28-3A16A42C64A1}|PlayerSniperPlaylistCreator\\PlayerSniperPlaylistCreator.csproj|solutionrelative:playersniperplaylistcreator\\configuration\\pluginconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A5310C0E-BCB6-42AF-AA28-3A16A42C64A1}|PlayerSniperPlaylistCreator\\PlayerSniperPlaylistCreator.csproj|C:\\Users\\TheRa\\source\\repos\\PlayerSniperPlaylistCreator\\PlayerSniperPlaylistCreator\\Playlist\\Playlist.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -66,20 +66,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "GameplaySetupViewController.cs",
               "DocumentMoniker": "C:\\Users\\TheRa\\source\\repos\\PlayerSniperPlaylistCreator\\PlayerSniperPlaylistCreator\\ViewControllers\\GameplaySetupViewController.cs",
               "RelativeDocumentMoniker": "PlayerSniperPlaylistCreator\\ViewControllers\\GameplaySetupViewController.cs",
               "ToolTip": "C:\\Users\\TheRa\\source\\repos\\PlayerSniperPlaylistCreator\\PlayerSniperPlaylistCreator\\ViewControllers\\GameplaySetupViewController.cs",
               "RelativeToolTip": "PlayerSniperPlaylistCreator\\ViewControllers\\GameplaySetupViewController.cs",
-              "ViewState": "AQIAACgAAAAAAAAAAAAgwEQAAAAcAAAA",
+              "ViewState": "AQIAAC8AAAAAAAAAAAAgwDwAAAAxAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-15T22:57:56.242Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "PluginConfig.cs",
               "DocumentMoniker": "C:\\Users\\TheRa\\source\\repos\\PlayerSniperPlaylistCreator\\PlayerSniperPlaylistCreator\\Configuration\\PluginConfig.cs",
               "RelativeDocumentMoniker": "PlayerSniperPlaylistCreator\\Configuration\\PluginConfig.cs",
@@ -88,19 +88,6 @@
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAeAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-28T22:04:58.431Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "PlaylistCreator.cs",
-              "DocumentMoniker": "C:\\Users\\TheRa\\source\\repos\\PlayerSniperPlaylistCreator\\PlayerSniperPlaylistCreator\\Playlist\\PlaylistCreator.cs",
-              "RelativeDocumentMoniker": "PlayerSniperPlaylistCreator\\Playlist\\PlaylistCreator.cs",
-              "ToolTip": "C:\\Users\\TheRa\\source\\repos\\PlayerSniperPlaylistCreator\\PlayerSniperPlaylistCreator\\Playlist\\PlaylistCreator.cs",
-              "RelativeToolTip": "PlayerSniperPlaylistCreator\\Playlist\\PlaylistCreator.cs",
-              "ViewState": "AQIAAEUAAAAAAAAAAADwvxoAAABMAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-28T22:05:34.17Z",
               "EditorCaption": ""
             },
             {
@@ -207,17 +194,30 @@
         },
         {
           "DockedWidth": 16,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
+              "Title": "PlaylistCreator.cs",
+              "DocumentMoniker": "C:\\Users\\TheRa\\source\\repos\\PlayerSniperPlaylistCreator\\PlayerSniperPlaylistCreator\\Playlist\\PlaylistCreator.cs",
+              "RelativeDocumentMoniker": "PlayerSniperPlaylistCreator\\Playlist\\PlaylistCreator.cs",
+              "ToolTip": "C:\\Users\\TheRa\\source\\repos\\PlayerSniperPlaylistCreator\\PlayerSniperPlaylistCreator\\Playlist\\PlaylistCreator.cs",
+              "RelativeToolTip": "PlayerSniperPlaylistCreator\\Playlist\\PlaylistCreator.cs",
+              "ViewState": "AQIAAJkAAAAAAAAAAADwv7EAAABtAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-28T22:05:34.17Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "GameplaySetupViewController.bsml",
               "DocumentMoniker": "C:\\Users\\TheRa\\source\\repos\\PlayerSniperPlaylistCreator\\PlayerSniperPlaylistCreator\\ViewControllers\\GameplaySetupViewController.bsml",
               "RelativeDocumentMoniker": "PlayerSniperPlaylistCreator\\ViewControllers\\GameplaySetupViewController.bsml",
               "ToolTip": "C:\\Users\\TheRa\\source\\repos\\PlayerSniperPlaylistCreator\\PlayerSniperPlaylistCreator\\ViewControllers\\GameplaySetupViewController.bsml",
               "RelativeToolTip": "PlayerSniperPlaylistCreator\\ViewControllers\\GameplaySetupViewController.bsml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABsAAAArAAAA",
+              "ViewState": "AQIAABUAAAAAAAAAAAAAAC0AAAAlAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
               "WhenOpened": "2024-04-25T02:49:54.004Z",
               "EditorCaption": ""

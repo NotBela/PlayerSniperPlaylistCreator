@@ -1,14 +1,14 @@
 ﻿<horizontal>
 	<vertical>
-		<horizontal>
-			<dropdown-list-setting
-				id='players'
-				text='Selected Player'
-				value='selectedPlayer'
-				options='playerList'
-				apply-on-change='true'
-			/>
-		</horizontal>
+		<dropdown-list-setting
+			id='players'
+			text='Selected Player'
+			value='selectedPlayer'
+			options='playerList'
+			apply-on-change='true'
+		/>
+
+		<button id='addPlayerButton' on-click='addPlayerButtonClick' text='Add Player' pad-bottom='5' />
 
 		<button on-click='settingsButtonClick' id='settingsButton' text='Playlist Settings' pad-bottom='20'/>
 
@@ -30,6 +30,25 @@
 				<vertical>
 					<text text='Loading...' />
 					<loading/>
+				</vertical>
+			</horizontal>
+		</modal>
+
+		<modal size-delta-x='35' size-delta-y='20' id='successModal' show-event='successModalShow' hide-event='successModalHide' click-off-closes='true' move-to-center='true'>
+			<horizontal bg='round-rect-panel'>
+				<vertical>
+					<text text='Success!'/>
+					<button text='OK' id='successOkButton' on-click='successOkButtonClick'/>
+				</vertical>
+			</horizontal>
+		</modal>
+
+		<modal-keyboard clear-on-open='true' show-event='keyboardShow' id='keyboard' hide-event='keyboardHide' click-off-closes='true' move-to-center='true' value='keyboardText' on-enter='keyboardOnEnter'/>
+
+		<modal show-event='playerListModalShow' id='playerListModal' hide-event='playerListModalHide' click-off-closes='true' move-to-center='true'>
+			<horizontal bg='round-rect-panel'>
+				<vertical>
+					<text text='test'/>
 				</vertical>
 			</horizontal>
 		</modal>
