@@ -34,20 +34,11 @@
 			</horizontal>
 		</modal>
 
-		<modal size-delta-x='35' size-delta-y='20' id='successModal' show-event='successModalShow' hide-event='successModalHide' click-off-closes='true' move-to-center='true'>
+		<modal size-delta-x='35' size-delta-y='20' id='resultModal' show-event='resultModalShow' hide-event='resultModalHide' click-off-closes='true' move-to-center='true'>
 			<horizontal bg='round-rect-panel'>
 				<vertical>
-					<text text='Success!'/>
-					<button text='OK' id='successOkButton' on-click='successOkButtonClick'/>
-				</vertical>
-			</horizontal>
-		</modal>
-
-		<modal size-delta-x='35' size-delta-y='20' id='failModal' show-event='failModalShow' hide-event='failModalHide' click-off-closes='true' move-to-center='true'>
-			<horizontal bg='round-rect-panel'>
-				<vertical>
-					<text text='An error occured! More details in log.'/>
-					<button text='OK' id='failOkButton' on-click='successOkButtonClick'/>
+					<text text='placeholder' id='resultModalText'/>
+					<button text='OK' id='resultOkButton' on-click='resultOkButtonClick'/>
 				</vertical>
 			</horizontal>
 		</modal>

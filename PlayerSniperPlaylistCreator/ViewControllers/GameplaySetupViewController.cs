@@ -21,19 +21,22 @@ using System.Runtime.CompilerServices;
 using System.Security.Policy;
 using TMPro;
 using UnityEngine.UI;
+using IPA.Utilities;
 
 namespace PlayerSniperPlaylistCreator.ViewControllers
 {
     [ViewDefinition("PlayerSniperPlaylistCreator.ViewControllers.GameplaySetupViewController.bsml")]
     public class GameplaySetupViewController
     {
-
+        #region Variables
         private int positionInArr = 0;
 
         private JArray playerArr;
 
         [UIParams]
         private BSMLParserParams parserParams = null;
+
+        #region BSMLComponent
 
         [UIComponent("players")]
         private DropDownListSetting playersDropdown = new DropDownListSetting();
@@ -44,20 +47,23 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
         [UIValue("selectedPlayer")]
         private object selectedPlayer
         {
-            get 
-            { 
+            get
+            {
                 if (PluginConfig.Instance.selectedPlayerId == null) return playerList[0];
                 return PlayerWriter.readFromJson(PluginConfig.Instance.selectedPlayerId).id;
             }
-            set 
-            { 
+            set
+            {
                 Player current = value as Player;
 
                 PluginConfig.Instance.selectedPlayerId = current.id;
             }
         }
 
-        #region add player modals
+        #region ModalComponents
+
+        [UIComponent("resultModalText")]
+        private TextMeshProUGUI resultModalText;
 
         [UIComponent("scoresaberPfp")]
         private UnityEngine.UI.Image scoresaberPfp;
@@ -73,94 +79,6 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
 
         [UIComponent("idText")]
         private TextMeshProUGUI idText;
-
-        [UIAction("addPlayerButtonClick")]
-        private void addPlayerButtonClick()
-        {
-            hideAllModals("keyboardShow");
-        }
-
-        [UIAction("keyboardOnEnter")]
-        private async void keyboardOnEnter(string input)
-        {
-            try
-            {
-                hideAllModals("loadingModalShow");
-
-                playerArr = (JArray)JObject.Parse(Utils.Utils.getResponseData(await ApiHelper.getResponse($"/api/players?search={input}")))["players"];
-
-                resultsAmtText.text = $"Showing result {positionInArr + 1} out of {playerArr.Count}";
-                nameText.text = $"{playerArr[positionInArr]["name"]}";
-                rankText.text = $"#{playerArr[positionInArr]["rank"]}";
-                scoresaberPfp.SetImage($"{playerArr[positionInArr]["profilePicture"]}");
-
-                hideAllModals("playerListModalShow");
-            }
-            catch (Exception e)
-            {
-                showError(e);
-            }
-            
-        }
-
-        [UIAction("addPlayerModalAddButtonClick")]
-        private void addPlayerModalAddButtonClick()
-        {
-            // add try catch here
-            try
-            {
-                Player playerToAdd = new Player(playerArr[positionInArr]["id"].ToString(), playerArr[positionInArr]["name"].ToString());
-                PlayerWriter.writeToJson(playerToAdd);
-
-                hideAllModals("successModalShow");
-
-                updatePlayerList();
-            }
-            catch(Exception e)
-            {
-                showError(e);
-            }
-            
-        }
-
-        #endregion
-
-
-        #region modals
-        [UIAction("createButtonOnClick")]
-        private async void createButtonOnClick()
-        {
-            try
-            {
-                hideAllModals("loadingModalShow");
-
-                long sniperID = 76561199003743737;
-                long targetID = 76561199367121661;
-
-                var sniperData = await Utils.Utils.getScoresaberPlayerAsync(sniperID);
-                var targetData = await Utils.Utils.getScoresaberPlayerAsync(targetID);
-
-                string targetName = targetData.GetValue("name").ToString();
-                Playlist.Image targetPfp = await Utils.Utils.getScoresaberPfpAsync(targetID);
-                var playlist = await PlaylistCreator.createPlaylist(sniperID, targetID, $"{targetName} Snipe Playlist", targetPfp);
-
-                Utils.Utils.writePlaylistToFile(playlist);
-                Loader.Instance.RefreshSongs();
-
-                hideAllModals("successModalShow");
-            }
-            catch (Exception e)
-            {
-                showError(e);
-            }
-            
-        }
-        
-        [UIAction("successOkButtonClick")]
-        private void successOkButtonClick()
-        {
-            hideAllModals();
-        }
 
         #region Playlist Settings Modal
 
@@ -186,7 +104,7 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
         {
             get
             {
-                switch(PluginConfig.Instance.playlistOrder)
+                switch (PluginConfig.Instance.playlistOrder)
                 {
                     case "targetPP":
                         return "Target Highest";
@@ -199,7 +117,7 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
 
             set
             {
-                switch(value)
+                switch (value)
                 {
                     case "Target Highest":
                         PluginConfig.Instance.playlistOrder = "targetPP";
@@ -213,6 +131,19 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
                 }
             }
         }
+        
+
+        #endregion
+
+        #endregion ModalComponents
+
+        #endregion BSMLComponent
+
+        #endregion Variables
+
+        #region BSMLActions
+
+        #region Root
 
         [UIAction("settingsCloseButtonClicked")]
         private void settingsCloseButtonClicked()
@@ -220,7 +151,34 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
             hideAllModals();
         }
 
-        #endregion
+        [UIAction("createButtonOnClick")]
+        private async void createButtonOnClick()
+        {
+            try
+            {
+                hideAllModals("loadingModalShow");
+
+                long sniperID = 76561199003743737;
+                long targetID = 76561199367121661;
+
+                var sniperData = await Utils.Utils.getScoresaberPlayerAsync(sniperID);
+                var targetData = await Utils.Utils.getScoresaberPlayerAsync(targetID);
+
+                string targetName = targetData.GetValue("name").ToString();
+                Playlist.Image targetPfp = await Utils.Utils.getScoresaberPfpAsync(targetID);
+                var playlist = await PlaylistCreator.createPlaylist(sniperID, targetID, $"{targetName} Snipe Playlist", targetPfp);
+
+                Utils.Utils.writePlaylistToFile(playlist);
+                Loader.Instance.RefreshSongs();
+
+                showResult("Successfully generated playlist!");
+            }
+            catch (Exception e)
+            {
+                showResult($"An error occured fetching data from scoresaber!", e);
+            }
+
+        }
 
         [UIAction("settingsButtonClick")]
         private void settingsButtonClick()
@@ -228,23 +186,101 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
             hideAllModals("settingsModalShow");
         }
 
+        [UIAction("createButtonOnClick")]
+        private void addPlayerButtonClick()
+        {
+            hideAllModals("keyboardShow");
+        }
+
+        #endregion
+
+        #region AddPlayerSubModals
+
+        [UIAction("keyboardOnEnter")]
+        private async void keyboardOnEnter(string input)
+        {
+            try
+            {
+                // add check here to make sure user enters more than 3 chars
+                if (input.Length < 3)
+                {
+                    showResult("Search terms must be greater than 3 characters!");
+                    return;
+                }
+
+                hideAllModals("loadingModalShow");
+
+                playerArr = (JArray)JObject.Parse(Utils.Utils.getResponseData(await ApiHelper.getResponse($"/api/players?search={input}")))["players"];
+
+                if (playerArr.Count == 0)
+                {
+                    showResult("No players found!");
+                    return;
+                }
+
+                resultsAmtText.text = $"Showing result {positionInArr + 1} out of {playerArr.Count}";
+                nameText.text = $"{playerArr[positionInArr]["name"]}";
+                rankText.text = $"#{playerArr[positionInArr]["rank"]}";
+                scoresaberPfp.SetImage($"{playerArr[positionInArr]["profilePicture"]}");
+
+                hideAllModals("playerListModalShow");
+            }
+            catch (Exception e)
+            {
+                showResult("An error occured fetching data from scoresaber!", e);
+            }
+
+        }
+
+        [UIAction("addPlayerModalAddButtonClick")]
+        private void addPlayerModalAddButtonClick()
+        {
+            // add try catch here
+            try
+            {
+                Player playerToAdd = new Player(playerArr[positionInArr]["id"].ToString(), playerArr[positionInArr]["name"].ToString());
+                PlayerWriter.writeToJson(playerToAdd);
+
+                showResult("Successfully added player!");
+
+                updatePlayerList();
+            }
+            catch (Exception e)
+            {
+                showResult($"An error occured writing player to disk!", e);
+            }
+
+        }
+
+        #endregion
+
+        // replace with general result modal
+        [UIAction("resultOkButtonClick")]
+        private void resultOkButtonClick()
+        {
+            hideAllModals();
+        }
+
+        #endregion
+
+        #region Internal Methods
         private void hideAllModals(string modalToShow = null)
         {
             parserParams.EmitEvent("loadingModalHide");
             parserParams.EmitEvent("settingsModalHide");
-            parserParams.EmitEvent("successModalHide");
+            parserParams.EmitEvent("resultModalHide");
             parserParams.EmitEvent("keyboardHide");
             parserParams.EmitEvent("playerListModalHide");
-            parserParams.EmitEvent("failModalHide");
 
             if (modalToShow != null) parserParams.EmitEvent(modalToShow);
         }
-        #endregion modals
 
-        private void showError(Exception ex)
+        private void showResult(string text, Exception ex = null)
         {
-            hideAllModals("failModalShow");
-            Plugin.Log.Error($"An error occured: {ex}");
+            resultModalText.text = text;
+
+            hideAllModals("resultModalShow");
+            if (ex != null) Plugin.Log.Error($"An error occured: {ex}");
         }
 
         private void updatePlayerList()
@@ -278,6 +314,8 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
             }
             
         }
+
+        #endregion Internal Methods
 
     }
 }
