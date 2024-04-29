@@ -19,12 +19,19 @@ using Loader = SongCore.Loader;
 using BeatSaberMarkupLanguage.Parser;
 using System.Runtime.CompilerServices;
 using System.Security.Policy;
+using TMPro;
+using UnityEngine.UI;
 
 namespace PlayerSniperPlaylistCreator.ViewControllers
 {
     [ViewDefinition("PlayerSniperPlaylistCreator.ViewControllers.GameplaySetupViewController.bsml")]
     public class GameplaySetupViewController
     {
+
+        private int positionInArr = 0;
+
+        private JArray playerArr;
+
         [UIParams]
         private BSMLParserParams parserParams = null;
 
@@ -52,25 +59,68 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
 
         #region add player modals
 
+        [UIComponent("scoresaberPfp")]
+        private UnityEngine.UI.Image scoresaberPfp;
+
+        [UIComponent("resultsAmtText")]
+        private TextMeshProUGUI resultsAmtText;
+
+        [UIComponent("rankText")]
+        private TextMeshProUGUI rankText;
+
+        [UIComponent("nameText")]
+        private TextMeshProUGUI nameText;
+
+        [UIComponent("idText")]
+        private TextMeshProUGUI idText;
+
         [UIAction("addPlayerButtonClick")]
         private void addPlayerButtonClick()
         {
             hideAllModals("keyboardShow");
         }
 
-        [UIValue("keyboardText")]
-        private string keyboardText { get; set; }
-
         [UIAction("keyboardOnEnter")]
-        private async void keyboardOnEnter()
+        private async void keyboardOnEnter(string input)
         {
-            hideAllModals("loadingModalShow");
+            try
+            {
+                hideAllModals("loadingModalShow");
 
-            JArray playerArr = (JArray) JObject.Parse(Utils.Utils.getResponseData(await ApiHelper.getResponse($"/api/players?search={keyboardText}")))["players"];
+                playerArr = (JArray)JObject.Parse(Utils.Utils.getResponseData(await ApiHelper.getResponse($"/api/players?search={input}")))["players"];
 
-            int positionInArr = 0;
+                resultsAmtText.text = $"Showing result {positionInArr + 1} out of {playerArr.Count}";
+                nameText.text = $"{playerArr[positionInArr]["name"]}";
+                rankText.text = $"#{playerArr[positionInArr]["rank"]}";
+                scoresaberPfp.SetImage($"{playerArr[positionInArr]["profilePicture"]}");
 
-            hideAllModals("playerListModalShow");
+                hideAllModals("playerListModalShow");
+            }
+            catch (Exception e)
+            {
+                showError(e);
+            }
+            
+        }
+
+        [UIAction("addPlayerModalAddButtonClick")]
+        private void addPlayerModalAddButtonClick()
+        {
+            // add try catch here
+            try
+            {
+                Player playerToAdd = new Player(playerArr[positionInArr]["id"].ToString(), playerArr[positionInArr]["name"].ToString());
+                PlayerWriter.writeToJson(playerToAdd);
+
+                hideAllModals("successModalShow");
+
+                updatePlayerList();
+            }
+            catch(Exception e)
+            {
+                showError(e);
+            }
+            
         }
 
         #endregion
@@ -80,22 +130,30 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
         [UIAction("createButtonOnClick")]
         private async void createButtonOnClick()
         {
-            hideAllModals("loadingModalShow");
+            try
+            {
+                hideAllModals("loadingModalShow");
 
-            long sniperID = 76561199003743737;
-            long targetID = 76561199367121661;
+                long sniperID = 76561199003743737;
+                long targetID = 76561199367121661;
 
-            var sniperData = await Utils.Utils.getScoresaberPlayerAsync(sniperID);
-            var targetData = await Utils.Utils.getScoresaberPlayerAsync(targetID);
+                var sniperData = await Utils.Utils.getScoresaberPlayerAsync(sniperID);
+                var targetData = await Utils.Utils.getScoresaberPlayerAsync(targetID);
 
-            string targetName = targetData.GetValue("name").ToString();
-            Image targetPfp = await Utils.Utils.getScoresaberPfpAsync(targetID);
-            var playlist = await PlaylistCreator.createPlaylist(sniperID, targetID, $"{targetName} Snipe Playlist", targetPfp);
+                string targetName = targetData.GetValue("name").ToString();
+                Playlist.Image targetPfp = await Utils.Utils.getScoresaberPfpAsync(targetID);
+                var playlist = await PlaylistCreator.createPlaylist(sniperID, targetID, $"{targetName} Snipe Playlist", targetPfp);
+
+                Utils.Utils.writePlaylistToFile(playlist);
+                Loader.Instance.RefreshSongs();
+
+                hideAllModals("successModalShow");
+            }
+            catch (Exception e)
+            {
+                showError(e);
+            }
             
-            Utils.Utils.writePlaylistToFile(playlist);
-            Loader.Instance.RefreshSongs();
-
-            hideAllModals("successModalShow");
         }
         
         [UIAction("successOkButtonClick")]
@@ -177,11 +235,17 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
             parserParams.EmitEvent("successModalHide");
             parserParams.EmitEvent("keyboardHide");
             parserParams.EmitEvent("playerListModalHide");
+            parserParams.EmitEvent("failModalHide");
 
             if (modalToShow != null) parserParams.EmitEvent(modalToShow);
         }
-
         #endregion modals
+
+        private void showError(Exception ex)
+        {
+            hideAllModals("failModalShow");
+            Plugin.Log.Error($"An error occured: {ex}");
+        }
 
         private void updatePlayerList()
         {
@@ -204,8 +268,6 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
                 {
                     returnList.Add(player);
                 }
-
-                if (!Directory.Exists(Path.Combine(Utils.Utils.path, "\\PlayerSniperPlaylistCreator")) || returnList.Count == 0) return new List<object> { "No players added!" };
 
                 return returnList;
             }

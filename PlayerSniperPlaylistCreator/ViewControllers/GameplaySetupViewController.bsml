@@ -43,12 +43,38 @@
 			</horizontal>
 		</modal>
 
-		<modal-keyboard clear-on-open='true' show-event='keyboardShow' id='keyboard' hide-event='keyboardHide' click-off-closes='true' move-to-center='true' value='keyboardText' on-enter='keyboardOnEnter'/>
-
-		<modal show-event='playerListModalShow' id='playerListModal' hide-event='playerListModalHide' click-off-closes='true' move-to-center='true'>
+		<modal size-delta-x='35' size-delta-y='20' id='failModal' show-event='failModalShow' hide-event='failModalHide' click-off-closes='true' move-to-center='true'>
 			<horizontal bg='round-rect-panel'>
 				<vertical>
-					<text text='test'/>
+					<text text='An error occured! More details in log.'/>
+					<button text='OK' id='failOkButton' on-click='successOkButtonClick'/>
+				</vertical>
+			</horizontal>
+		</modal>
+
+		<modal-keyboard clear-on-open='true' show-event='keyboardShow' id='keyboard' hide-event='keyboardHide' click-off-closes='true' move-to-center='true' on-enter='keyboardOnEnter'/>
+
+		<modal size-delta-x='100' size-delta-y='100' show-event='playerListModalShow' id='playerListModal' hide-event='playerListModalHide' click-off-closes='true' move-to-center='true'>
+			<horizontal bg='round-rect-panel'>
+				<vertical>
+
+					<text text='Search Results' font-size='10' pad-bottom='5' align='Center'/>
+					<text text='placeholder' id='resultsAmtText' font-size='5' align='Center' pad-bottom='20'/>
+					
+					<horizontal pad-top='10'>
+						<image pref-width='20' pref-height='20' preserve-aspect='true' id='scoresaberPfp' pad-top='5' pad-left='20'/>
+						<vertical>
+							<text text='placeholder' id='nameText' font-size='6' align='Right' pad-bottom='20'/>
+							<text text='placeholder' id='rankText' font-size='6' align='Right'/>
+						</vertical>
+						
+					</horizontal>
+
+					<horizontal>
+						<button text='Close' id='addPlayerModalCancelButton' on-click='addPlayerModalCancelButtonClick' />
+						<button text='Add' id='addPlayerModalAddButton' on-click='addPlayerModalAddButtonClick'/>
+					</horizontal>
+
 				</vertical>
 			</horizontal>
 		</modal>

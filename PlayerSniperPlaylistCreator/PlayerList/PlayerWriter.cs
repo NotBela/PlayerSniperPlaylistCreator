@@ -8,7 +8,7 @@ namespace PlayerSniperPlaylistCreator.PlayerList
 {
     internal static class PlayerWriter
     {
-        public static readonly string path = Path.Combine(UnityGame.InstallPath, "UserData\\PlayerSniperPlaylistCreator\\");
+        public static readonly string path = $"{UnityGame.InstallPath}\\UserData\\PlayerSniperPlaylistCreator\\";
 
         public static void writeToJson(Player player)
         {
@@ -20,28 +20,20 @@ namespace PlayerSniperPlaylistCreator.PlayerList
 
         public static Player readFromJson(string id)
         {
-            if (!Directory.Exists(path) || !File.Exists($"{path}{id}.json")) throw new Exception("Player file or folder does not exist");
+            if (!Directory.Exists(path) || !File.Exists($"{path}{id}")) throw new Exception("Player file or folder does not exist");
 
-            return JsonConvert.DeserializeObject<Player>($"{path}{id}.json");
+            return JsonConvert.DeserializeObject<Player>(File.ReadAllText($"{path}{id}.json"));
         }
 
         public static List<Player> getAllPlayers()
         {
+            string[] fileListWithPath = Directory.GetFiles(path);
+
             var list = new List<Player>();
 
-            var files = Directory.GetFiles(path);
-
-            foreach (var file in files)
+            foreach (string file in fileListWithPath)
             {
-                try
-                {
-                    Player curr = readFromJson(file.Substring(0, file.Length - 5));
-                    list.Add(curr);
-                }
-                catch
-                {
-                    Plugin.Log.Warn($"Could not read file {file}!");
-                }
+                list.Add(readFromJson(Path.GetFileNameWithoutExtension(file)));
             }
 
             return list;
