@@ -131,7 +131,7 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
                 }
             }
         }
-        
+
 
         #endregion
 
@@ -175,7 +175,7 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
             }
             catch (Exception e)
             {
-                showResult($"An error occured fetching data from scoresaber!", e);
+                showResult($"An error occured fetching \n data from scoresaber!", e);
             }
 
         }
@@ -196,11 +196,19 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
 
         #region AddPlayerSubModals
 
+        [UIAction("addPlayerModalCancelButtonClick")]
+        private void addPlayerModalCancelButtonClick()
+        {
+            hideAllModals();
+        }
+
         [UIAction("keyboardOnEnter")]
         private async void keyboardOnEnter(string input)
         {
             try
             {
+                hideAllModals("loadingModalShow");
+
                 // add check here to make sure user enters more than 3 chars
                 if (input.Length < 3)
                 {
@@ -208,15 +216,15 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
                     return;
                 }
 
-                hideAllModals("loadingModalShow");
+                var response = await ApiHelper.getResponse($"/api/players?search={input}");
 
-                playerArr = (JArray)JObject.Parse(Utils.Utils.getResponseData(await ApiHelper.getResponse($"/api/players?search={input}")))["players"];
-
-                if (playerArr.Count == 0)
+                if ((int) response.StatusCode / 100 == 4)
                 {
                     showResult("No players found!");
                     return;
                 }
+
+                playerArr = (JArray)JObject.Parse(Utils.Utils.getResponseData(response))["players"];
 
                 resultsAmtText.text = $"Showing result {positionInArr + 1} out of {playerArr.Count}";
                 nameText.text = $"{playerArr[positionInArr]["name"]}";
@@ -227,7 +235,7 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
             }
             catch (Exception e)
             {
-                showResult("An error occured fetching data from scoresaber!", e);
+                showResult("An error occured fetching \n data from scoresaber!", e);
             }
 
         }
