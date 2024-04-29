@@ -186,7 +186,7 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
             hideAllModals("settingsModalShow");
         }
 
-        [UIAction("createButtonOnClick")]
+        [UIAction("addPlayerButtonClick")]
         private void addPlayerButtonClick()
         {
             hideAllModals("keyboardShow");
@@ -204,7 +204,7 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
                 // add check here to make sure user enters more than 3 chars
                 if (input.Length < 3)
                 {
-                    showResult("Search terms must be greater than 3 characters!");
+                    showResult("Search terms must be greater \n than 3 characters!");
                     return;
                 }
 
