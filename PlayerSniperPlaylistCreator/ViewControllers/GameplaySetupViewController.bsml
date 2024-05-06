@@ -62,8 +62,10 @@
 					</horizontal>
 
 					<horizontal>
+						<page-button active='~leftPageButtonActive' pad-right='10' direction='Left' id='leftPageButton' on-click='leftPageButtonClick'/>
 						<button text='Close' id='addPlayerModalCancelButton' on-click='addPlayerModalCancelButtonClick' />
 						<button text='Add' id='addPlayerModalAddButton' on-click='addPlayerModalAddButtonClick'/>
+						<page-button active='~rightPageButtonActive' pad-left='10' direction='Right' id='rightPageButton' on-click='rightPageButtonClick'/>
 					</horizontal>
 
 				</vertical>

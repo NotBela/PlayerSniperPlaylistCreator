@@ -22,6 +22,7 @@ using System.Security.Policy;
 using TMPro;
 using UnityEngine.UI;
 using IPA.Utilities;
+using UnityEngine;
 
 namespace PlayerSniperPlaylistCreator.ViewControllers
 {
@@ -29,7 +30,20 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
     public class GameplaySetupViewController
     {
         #region Variables
-        private int positionInArr = 0;
+        private int _positionInArr = 0;
+        internal int positionInArr 
+        {
+            get { return  _positionInArr; }
+            set {
+                _positionInArr = value;
+                nameText.text = playerArr[value]["name"].ToString();
+                rankText.text = $"#{playerArr[value]["rank"]}";
+                scoresaberPfp.SetImage(playerArr[value]["profilePicture"].ToString());
+
+                leftPageButtonActive = value > 0;
+                rightPageButtonActive = value < playerArr.Count;
+            }
+        }
 
         private JArray playerArr;
 
@@ -61,6 +75,12 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
         }
 
         #region ModalComponents
+
+        [UIValue("leftPageButtonActive")]
+        private bool leftPageButtonActive { get; set; } = false;
+
+        [UIValue("rightPageButtonActive")]
+        private bool rightPageButtonActive { get; set; } = false;
 
         [UIComponent("resultModalText")]
         private TextMeshProUGUI resultModalText;
@@ -157,8 +177,10 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
             try
             {
                 hideAllModals("loadingModalShow");
+                
+                var info = await BS_Utils.Gameplay.GetUserInfo.GetUserAsync();
 
-                long sniperID = 76561199003743737;
+                long sniperID = long.Parse(info.platformUserId);
                 long targetID = 76561199367121661;
 
                 var sniperData = await Utils.Utils.getScoresaberPlayerAsync(sniperID);
@@ -166,7 +188,15 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
 
                 string targetName = targetData.GetValue("name").ToString();
                 Playlist.Image targetPfp = await Utils.Utils.getScoresaberPfpAsync(targetID);
-                var playlist = await PlaylistCreator.createPlaylist(sniperID, targetID, $"{targetName} Snipe Playlist", targetPfp);
+                var playlist = await PlaylistCreator.createPlaylist(
+                    sniperID, 
+                    targetID, 
+                    $"{targetName} Snipe Playlist", 
+                    targetPfp, 
+                    PluginConfig.Instance.includeUnplayed, 
+                    PluginConfig.Instance.rankedOnly, 
+                    PluginConfig.Instance.playlistOrder
+                );
 
                 Utils.Utils.writePlaylistToFile(playlist);
                 Loader.Instance.RefreshSongs();
@@ -195,6 +225,18 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
         #endregion
 
         #region AddPlayerSubModals
+
+        [UIAction("leftPageButtonClick")]
+        private void leftPageButtonClick()
+        {
+            positionInArr--;
+        }
+
+        [UIAction("rightPageButtonClick")]
+        private void rightPageButtonClick()
+        {
+            positionInArr++;
+        }
 
         [UIAction("addPlayerModalCancelButtonClick")]
         private void addPlayerModalCancelButtonClick()
