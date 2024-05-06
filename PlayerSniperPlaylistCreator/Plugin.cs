@@ -1,18 +1,10 @@
 ﻿using BeatSaberMarkupLanguage.GameplaySetup;
 using BeatSaberMarkupLanguage.Settings;
 using IPA;
-using IPA.Config;
 using IPA.Config.Stores;
 using PlayerSniperPlaylistCreator.Configuration;
 using PlayerSniperPlaylistCreator.PlayerList;
-using PlayerSniperPlaylistCreator.ViewControllers;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using UnityEngine;
-using UnityEngine.SceneManagement;
 using IPALogger = IPA.Logging.Logger;
 
 namespace PlayerSniperPlaylistCreator

@@ -2,27 +2,14 @@
 using BeatSaberMarkupLanguage;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BeatSaberMarkupLanguage.Components;
-using BeatSaberMarkupLanguage.Tags;
 using PlayerSniperPlaylistCreator.Configuration;
 using PlayerSniperPlaylistCreator.PlayerList;
-using BeatSaberMarkupLanguage.Tags.Settings;
 using BeatSaberMarkupLanguage.Components.Settings;
 using PlayerSniperPlaylistCreator.Playlist;
-using System.IO;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
 using Loader = SongCore.Loader;
 using BeatSaberMarkupLanguage.Parser;
-using System.Runtime.CompilerServices;
-using System.Security.Policy;
 using TMPro;
-using UnityEngine.UI;
-using IPA.Utilities;
-using UnityEngine;
 
 namespace PlayerSniperPlaylistCreator.ViewControllers
 {

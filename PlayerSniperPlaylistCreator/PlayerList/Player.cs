@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BS_Utils;
-using BS_Utils.Gameplay;
-
-namespace PlayerSniperPlaylistCreator.PlayerList
+﻿namespace PlayerSniperPlaylistCreator.PlayerList
 {
     internal class Player
     {
