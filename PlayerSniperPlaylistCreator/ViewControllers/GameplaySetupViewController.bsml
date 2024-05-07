@@ -47,7 +47,7 @@
 					<text text='placeholder' id='resultsAmtText' font-size='5' align='Center'/>
 					
 					<horizontal>
-						<image preserve-aspect='true' id='scoresaberPfp' pad-top='5' pad-left='20'/>
+						<image preserve-aspect='true' id='scoresaberPfp' preferred-width='20' preferred-height='20' pad-top='5' pad-left='20'/>
 						<vertical>
 							<text text='placeholder' id='nameText' font-size='6' align='Right'/>
 							<text text='placeholder' id='rankText' font-size='6' align='Right'/>
@@ -55,7 +55,7 @@
 						
 					</horizontal>
 
-					<horizontal pad-top='5' preferred-height='25'>
+					<horizontal preferred-height='25'>
 						<page-button pad-right='10' direction='Left' id='leftPageButton' on-click='leftPageButtonClick'/>
 						<button text='Close' id='addPlayerModalCancelButton' on-click='addPlayerModalCancelButtonClick' />
 						<button text='Select' id='addPlayerModalAddButton' on-click='addPlayerModalAddButtonClick'/>
