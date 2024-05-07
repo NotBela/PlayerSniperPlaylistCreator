@@ -192,6 +192,7 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
 
                 Utils.Utils.writePlaylistToFile(playlist);
                 Loader.Instance.RefreshSongs();
+                BeatSaberPlaylistsLib.PlaylistManager.DefaultManager.RefreshPlaylists(true);
 
                 showResult("Successfully generated playlist!");
             }
