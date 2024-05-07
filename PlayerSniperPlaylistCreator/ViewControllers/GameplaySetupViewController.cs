@@ -284,6 +284,7 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
             {
                 JObject playerToAdd = (JObject) playerArr[positionInArr];
                 PluginConfig.Instance.selectedPlayerId = long.Parse(playerToAdd["id"].ToString());
+                PluginConfig.Instance.selectedPlayerName = playerToAdd["name"].ToString();
 
                 selectedPlayerText.text = $"Selected Player: {playerToAdd["name"]}";
 
