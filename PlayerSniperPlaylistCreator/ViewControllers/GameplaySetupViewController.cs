@@ -10,6 +10,8 @@ using Newtonsoft.Json.Linq;
 using Loader = SongCore.Loader;
 using BeatSaberMarkupLanguage.Parser;
 using TMPro;
+using UnityEngine;
+using BeatSaberMarkupLanguage.Components;
 
 namespace PlayerSniperPlaylistCreator.ViewControllers
 {
@@ -26,9 +28,10 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
                 nameText.text = playerArr[value]["name"].ToString();
                 rankText.text = $"#{playerArr[value]["rank"]}";
                 scoresaberPfp.SetImage(playerArr[value]["profilePicture"].ToString());
+                resultsAmtText.text = $"Showing result {positionInArr + 1} out of {playerArr.Count}";
 
-                leftPageButtonActive = value > 0;
-                rightPageButtonActive = value < playerArr.Count;
+                leftPageButton.gameObject.SetActive(value > 0);
+                rightPageButton.gameObject.SetActive(value < playerArr.Count - 1);
             }
         }
 
@@ -63,11 +66,11 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
 
         #region ModalComponents
 
-        [UIValue("leftPageButtonActive")]
-        private bool leftPageButtonActive { get; set; } = false;
+        [UIComponent("leftPageButton")]
+        private PageButton leftPageButton;
 
-        [UIValue("rightPageButtonActive")]
-        private bool rightPageButtonActive { get; set; } = false;
+        [UIComponent("rightPageButton")]
+        private PageButton rightPageButton;
 
         [UIComponent("resultModalText")]
         private TextMeshProUGUI resultModalText;
@@ -259,6 +262,8 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
                 nameText.text = $"{playerArr[positionInArr]["name"]}";
                 rankText.text = $"#{playerArr[positionInArr]["rank"]}";
                 scoresaberPfp.SetImage($"{playerArr[positionInArr]["profilePicture"]}");
+
+                positionInArr = 0;
 
                 hideAllModals("playerListModalShow");
             }

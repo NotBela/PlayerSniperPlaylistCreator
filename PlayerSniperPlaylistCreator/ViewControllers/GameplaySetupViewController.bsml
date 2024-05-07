@@ -45,27 +45,27 @@
 
 		<modal-keyboard clear-on-open='true' show-event='keyboardShow' id='keyboard' hide-event='keyboardHide' click-off-closes='true' move-to-center='true' on-enter='keyboardOnEnter'/>
 
-		<modal size-delta-x='100' size-delta-y='100' show-event='playerListModalShow' id='playerListModal' hide-event='playerListModalHide' click-off-closes='true' move-to-center='true'>
+		<modal size-delta-x='60' size-delta-y='50' show-event='playerListModalShow' id='playerListModal' hide-event='playerListModalHide' click-off-closes='true' move-to-center='true'>
 			<horizontal bg='round-rect-panel'>
-				<vertical>
+				<vertical child-control-height='true'>
 
-					<text text='Search Results' font-size='10' pad-bottom='5' align='Center'/>
-					<text text='placeholder' id='resultsAmtText' font-size='5' align='Center' pad-bottom='20'/>
+					<text text='Search Results' font-size='10' pad-bottom='5' align='Center' pad-top='10'/>
+					<text text='placeholder' id='resultsAmtText' font-size='5' align='Center'/>
 					
-					<horizontal pad-top='10'>
-						<image pref-width='20' pref-height='20' preserve-aspect='true' id='scoresaberPfp' pad-top='5' pad-left='20'/>
+					<horizontal>
+						<image preserve-aspect='true' id='scoresaberPfp' pad-top='5' pad-left='20'/>
 						<vertical>
-							<text text='placeholder' id='nameText' font-size='6' align='Right' pad-bottom='20'/>
+							<text text='placeholder' id='nameText' font-size='6' align='Right'/>
 							<text text='placeholder' id='rankText' font-size='6' align='Right'/>
 						</vertical>
 						
 					</horizontal>
 
-					<horizontal>
-						<page-button active='~leftPageButtonActive' pad-right='10' direction='Left' id='leftPageButton' on-click='leftPageButtonClick'/>
+					<horizontal pad-top='5' preferred-height='25'>
+						<page-button pad-right='10' direction='Left' id='leftPageButton' on-click='leftPageButtonClick'/>
 						<button text='Close' id='addPlayerModalCancelButton' on-click='addPlayerModalCancelButtonClick' />
 						<button text='Add' id='addPlayerModalAddButton' on-click='addPlayerModalAddButtonClick'/>
-						<page-button active='~rightPageButtonActive' pad-left='10' direction='Right' id='rightPageButton' on-click='rightPageButtonClick'/>
+						<page-button pad-left='10' direction='Right' id='rightPageButton' on-click='rightPageButtonClick'/>
 					</horizontal>
 
 				</vertical>
