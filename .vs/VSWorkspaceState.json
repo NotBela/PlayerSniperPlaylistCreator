@@ -3,6 +3,7 @@
     "",
     "\\PlayerSniperPlaylistCreator",
     "\\PlayerSniperPlaylistCreator\\ApiHelper",
+    "\\PlayerSniperPlaylistCreator\\PlayerList",
     "\\PlayerSniperPlaylistCreator\\Playlist",
     "\\PlayerSniperPlaylistCreator\\Utils",
     "\\PlayerSniperPlaylistCreator\\ViewControllers"

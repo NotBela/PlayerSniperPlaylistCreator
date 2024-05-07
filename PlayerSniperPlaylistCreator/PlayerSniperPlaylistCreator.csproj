@@ -114,7 +114,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiHelper\ApiHelper.cs" />
-    <Compile Include="PlayerList\PlayerWriter.cs" />
     <Compile Include="PlayerList\Player.cs" />
     <Compile Include="Playlist\Difficulty.cs" />
     <Compile Include="Playlist\Image.cs" />

@@ -10,19 +10,34 @@ using Newtonsoft.Json.Linq;
 using Loader = SongCore.Loader;
 using BeatSaberMarkupLanguage.Parser;
 using TMPro;
-using UnityEngine;
 using BeatSaberMarkupLanguage.Components;
+using BeatSaberMarkupLanguage.Tags;
+using UnityEngine.UI;
 
 namespace PlayerSniperPlaylistCreator.ViewControllers
 {
     [ViewDefinition("PlayerSniperPlaylistCreator.ViewControllers.GameplaySetupViewController.bsml")]
     public class GameplaySetupViewController
     {
+
+        public GameplaySetupViewController() 
+        {
+            if (PluginConfig.Instance.selectedPlayerId == -1)
+            {
+                PluginConfig.Instance.selectedPlayerName = "None";
+                createButtonInteractable = false;
+            }
+            else
+            {
+                createButtonInteractable = true;
+            }
+        }
+
         #region Variables
         private int _positionInArr = 0;
-        internal int positionInArr 
+        internal int positionInArr
         {
-            get { return  _positionInArr; }
+            get { return _positionInArr; }
             set {
                 _positionInArr = value;
                 nameText.text = playerArr[value]["name"].ToString();
@@ -42,27 +57,17 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
 
         #region BSMLComponent
 
-        [UIComponent("players")]
-        private DropDownListSetting playersDropdown = new DropDownListSetting();
+        [UIValue("createButtonInteractable")]
+        private bool createButtonInteractable = false;
 
-        [UIValue("playerList")]
-        private List<object> playerList = new List<object>(sanatizePlayerList());
+        [UIComponent("createButton")]
+        private Button createButton;
 
-        [UIValue("selectedPlayer")]
-        private object selectedPlayer
-        {
-            get
-            {
-                if (PluginConfig.Instance.selectedPlayerId == null) return playerList[0];
-                return PlayerWriter.readFromJson(PluginConfig.Instance.selectedPlayerId).id;
-            }
-            set
-            {
-                Player current = value as Player;
+        [UIComponent("selectedPlayer")]
+        private TextMeshProUGUI selectedPlayerText;
 
-                PluginConfig.Instance.selectedPlayerId = current.id;
-            }
-        }
+        [UIValue("selectedText")]
+        private string selectedText = $"Selected Player: {PluginConfig.Instance.selectedPlayerName}";
 
         #region ModalComponents
 
@@ -86,9 +91,6 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
 
         [UIComponent("nameText")]
         private TextMeshProUGUI nameText;
-
-        [UIComponent("idText")]
-        private TextMeshProUGUI idText;
 
         #region Playlist Settings Modal
 
@@ -171,7 +173,7 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
                 var info = await BS_Utils.Gameplay.GetUserInfo.GetUserAsync();
 
                 long sniperID = long.Parse(info.platformUserId);
-                long targetID = 76561199367121661;
+                long targetID = PluginConfig.Instance.selectedPlayerId;
 
                 var sniperData = await Utils.Utils.getScoresaberPlayerAsync(sniperID);
                 var targetData = await Utils.Utils.getScoresaberPlayerAsync(targetID);
@@ -280,16 +282,18 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
             // add try catch here
             try
             {
-                Player playerToAdd = new Player(playerArr[positionInArr]["id"].ToString(), playerArr[positionInArr]["name"].ToString());
-                PlayerWriter.writeToJson(playerToAdd);
+                JObject playerToAdd = (JObject) playerArr[positionInArr];
+                PluginConfig.Instance.selectedPlayerId = long.Parse(playerToAdd["id"].ToString());
 
-                showResult("Successfully added player!");
+                selectedPlayerText.text = $"Selected Player: {playerToAdd["name"]}";
 
-                updatePlayerList();
+                createButton.interactable = true;
+
+                showResult("Successfully selected player!");
             }
             catch (Exception e)
             {
-                showResult($"An error occured writing player to disk!", e);
+                showResult($"An error occured selecting this player!", e);
             }
 
         }
@@ -306,6 +310,7 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
         #endregion
 
         #region Internal Methods
+
         private void hideAllModals(string modalToShow = null)
         {
             parserParams.EmitEvent("loadingModalHide");
@@ -323,38 +328,6 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
 
             hideAllModals("resultModalShow");
             if (ex != null) Plugin.Log.Error($"An error occured: {ex}");
-        }
-
-        private void updatePlayerList()
-        {
-            playersDropdown.values = new List<object>(sanatizePlayerList());
-            playersDropdown.UpdateChoices();
-        }
-
-        // needs to be static or the program bitches about NOTHING !!!!!
-        private static List<object> sanatizePlayerList()
-        {
-            try
-            {
-                var allPlayers = PlayerWriter.getAllPlayers();
-
-                // cant convert a list of players to a list of objects implicitly apparently so this needs to be here :(
-
-                List<object> returnList = new List<object>();
-
-                foreach (object player in allPlayers)
-                {
-                    returnList.Add(player);
-                }
-
-                return returnList;
-            }
-            catch (Exception)
-            {
-                // really dumb but idk a better way
-                return new List<object> { "No players added!" };
-            }
-            
         }
 
         #endregion Internal Methods

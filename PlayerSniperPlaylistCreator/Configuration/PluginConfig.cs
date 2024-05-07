@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Runtime.CompilerServices;
 using BeatSaberMarkupLanguage.GameplaySetup;
 using IPA.Config.Stores;
 
@@ -9,7 +10,8 @@ namespace PlayerSniperPlaylistCreator.Configuration
     {
         public static PluginConfig Instance { get; set; }
         public virtual bool enabled { get; set; } = true;
-        public virtual string selectedPlayerId { get; set; }
+        public virtual long selectedPlayerId { get; set; } = -1;
+        public virtual string selectedPlayerName { get; set; } = "None";
         public virtual bool includeUnplayed { get; set; } = false;
         public virtual bool rankedOnly { get; set; } = true;
         public virtual string playlistOrder { get; set; } = "targetPP";
@@ -35,6 +37,7 @@ namespace PlayerSniperPlaylistCreator.Configuration
             else
             {
                 ViewControllers.GameplaySetupViewController controller = new ViewControllers.GameplaySetupViewController();
+
                 GameplaySetup.instance.AddTab("PSPC", "PlayerSniperPlaylistCreator.ViewControllers.GameplaySetupViewController.bsml", controller, MenuType.Solo);
             }
         }

@@ -4,9 +4,9 @@
     {
 
         public string name;
-        public string id;
+        public long id;
 
-        public Player(string id, string name) // ADD DEFAULT HERE THAT GETS NAME AUTOMATICALLY
+        public Player(long id, string name) // ADD DEFAULT HERE THAT GETS NAME AUTOMATICALLY
         {
             this.name = name;
             this.id = id;

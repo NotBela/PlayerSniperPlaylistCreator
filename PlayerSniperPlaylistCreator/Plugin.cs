@@ -4,6 +4,7 @@ using IPA;
 using IPA.Config.Stores;
 using PlayerSniperPlaylistCreator.Configuration;
 using PlayerSniperPlaylistCreator.PlayerList;
+using System;
 using System.IO;
 using IPALogger = IPA.Logging.Logger;
 
@@ -25,7 +26,7 @@ namespace PlayerSniperPlaylistCreator
         {
             Instance = this;
             Log = logger;
-            Configuration.PluginConfig.Instance = conf.Generated<Configuration.PluginConfig>();
+            PluginConfig.Instance = conf.Generated<PluginConfig>();
             // Log.Info("PlayerSniperPlaylistCreator initialized.");
         }
 
@@ -49,9 +50,8 @@ namespace PlayerSniperPlaylistCreator
 
             if (PluginConfig.Instance.enabled)
             {
-                Directory.CreateDirectory(PlayerWriter.path);
+                ViewControllers.GameplaySetupViewController controller = new ViewControllers.GameplaySetupViewController();
 
-                GameplaySetupViewController controller = new GameplaySetupViewController();
                 GameplaySetup.instance.AddTab("PSPC", "PlayerSniperPlaylistCreator.ViewControllers.GameplaySetupViewController.bsml", controller, MenuType.Solo);
             }
 
