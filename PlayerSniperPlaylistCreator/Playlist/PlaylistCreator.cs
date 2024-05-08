@@ -8,6 +8,10 @@ namespace PlayerSniperPlaylistCreator.Playlist
 {
     internal class PlaylistCreator
     {
+        private const string theFunnyMapHash = "5cff0b7298cc5a672c84e8d3"; //currently set to: rctts
+        private const string theFunnyDiff = "ExpertPlus";
+        private const string theFunnyCharacteristic = "Standard";
+        private const int theFunnyMapNumber = 100;
         /*
          * Required Parameters:
          * - sinperID: the number part of the sniper's score saberlink
@@ -27,6 +31,19 @@ namespace PlayerSniperPlaylistCreator.Playlist
         //DONE, TESTED, good to go
         public static async Task<Playlist> createPlaylist(long sniperID, long targetID, string name, Image image, bool includeUnplayed = false, bool rankedOnly = true, string order = "targetPP")
         {
+            //THE FUNNY
+            if (sniperID == targetID)
+            {
+                List<Song> theFunnies = new List<Song>();
+                for (int i = 0; i < theFunnyMapNumber; i++)
+                {
+                    theFunnies.Add(new Song(theFunnyMapHash, new Difficulty(theFunnyCharacteristic, theFunnyDiff)));
+                }
+                string theFunnyImage = $"data:image/jpeg;base64,{image.convertToBase64()}";
+                Playlist theFunnyList = new Playlist(name, theFunnies, theFunnyImage);
+                return theFunnyList;
+            }
+            //the non funny
             List<Map> maps = new List<Map>();
             //get maps
             List<Map> sniperMaps = await getMaps(sniperID, rankedOnly);
