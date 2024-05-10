@@ -3,7 +3,9 @@ using BeatSaberMarkupLanguage.Settings;
 using IPA;
 using IPA.Config.Stores;
 using PlayerSniperPlaylistCreator.Configuration;
+using PlayerSniperPlaylistCreator.Installers;
 using PlayerSniperPlaylistCreator.PlayerList;
+using SiraUtil.Zenject;
 using System;
 using System.IO;
 using IPALogger = IPA.Logging.Logger;
@@ -22,12 +24,13 @@ namespace PlayerSniperPlaylistCreator
         /// [Init] methods that use a Constructor or called before regular methods like InitWithConfig.
         /// Only use [Init] with one Constructor.
         /// </summary>
-        public void Init(IPALogger logger, IPA.Config.Config conf)
+        public void Init(IPALogger logger, IPA.Config.Config conf, Zenjector zenjector)
         {
             Instance = this;
             Log = logger;
             PluginConfig.Instance = conf.Generated<PluginConfig>();
             // Log.Info("PlayerSniperPlaylistCreator initialized.");
+            zenjector.Install<MenuInstaller>(Location.Menu);
         }
 
         #region BSIPA Config
