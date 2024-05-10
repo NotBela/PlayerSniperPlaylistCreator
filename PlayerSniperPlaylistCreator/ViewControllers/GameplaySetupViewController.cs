@@ -13,6 +13,8 @@ using TMPro;
 using BeatSaberMarkupLanguage.Components;
 using BeatSaberMarkupLanguage.Tags;
 using UnityEngine.UI;
+using IPA.Utilities;
+using System.IO;
 
 namespace PlayerSniperPlaylistCreator.ViewControllers
 {
@@ -175,11 +177,11 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
                 long sniperID = long.Parse(info.platformUserId);
                 long targetID = PluginConfig.Instance.selectedPlayerId;
 
-                var sniperData = await Utils.Utils.getScoresaberPlayerAsync(sniperID);
-                var targetData = await Utils.Utils.getScoresaberPlayerAsync(targetID);
+                var sniperData = await ApiHelper.getScoresaberPlayerAsync(sniperID);
+                var targetData = await ApiHelper.getScoresaberPlayerAsync(targetID);
 
                 string targetName = targetData.GetValue("name").ToString();
-                Playlist.Image targetPfp = await Utils.Utils.getScoresaberPfpAsync(targetID);
+                Playlist.Image targetPfp = await ApiHelper.getScoresaberPfpAsync(targetID);
                 var playlist = await PlaylistCreator.createPlaylist(
                     sniperID, 
                     targetID, 
@@ -190,7 +192,7 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
                     PluginConfig.Instance.playlistOrder
                 );
 
-                Utils.Utils.writePlaylistToFile(playlist);
+                writePlaylistToFile(playlist);
                 Loader.Instance.RefreshSongs();
                 BeatSaberPlaylistsLib.PlaylistManager.DefaultManager.RefreshPlaylists(true);
 
@@ -259,7 +261,7 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
                     return;
                 }
 
-                playerArr = (JArray)JObject.Parse(Utils.Utils.getResponseData(response))["players"];
+                playerArr = (JArray)JObject.Parse(ApiHelper.getResponseData(response))["players"];
 
                 resultsAmtText.text = $"Showing result {positionInArr + 1} out of {playerArr.Count}";
                 nameText.text = $"{playerArr[positionInArr]["name"]}";
@@ -312,6 +314,11 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
         #endregion
 
         #region Internal Methods
+
+        private static void writePlaylistToFile(Playlist.Playlist playlist)
+        {
+            File.WriteAllText($"{UnityGame.InstallPath}\\Playlists\\{playlist.playlistTitle}.bplist", playlist.toJson());
+        }
 
         private void hideAllModals(string modalToShow = null)
         {

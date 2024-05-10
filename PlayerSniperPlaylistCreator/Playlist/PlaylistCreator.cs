@@ -171,7 +171,7 @@ namespace PlayerSniperPlaylistCreator.Playlist
             List<Map> maps = new List<Map>();
             HttpResponseMessage response1 = await ApiHelper.getResponse("/api/player/" + id + "/full");
 
-            JObject data1 = JsonConvert.DeserializeObject<JObject>(Utils.Utils.getResponseData(response1));
+            JObject data1 = JsonConvert.DeserializeObject<JObject>(ApiHelper.getResponseData(response1));
             int total;
             if (rankedOnly)
                 total = (int)data1["scoreStats"]["rankedPlayCount"];
@@ -187,7 +187,7 @@ namespace PlayerSniperPlaylistCreator.Playlist
                 else
                     limit = total - ((maxPage - 2) * 100);
                 HttpResponseMessage response2 = await ApiHelper.getResponse("/api/player/" + id + "/scores?limit=" + limit + "&sort=top&page=" + i);
-                JArray data2 = (JArray)JObject.Parse(Utils.Utils.getResponseData(response2))["playerScores"];
+                JArray data2 = (JArray)JObject.Parse(ApiHelper.getResponseData(response2))["playerScores"];
 
                 foreach (JObject x in data2)
                 {
