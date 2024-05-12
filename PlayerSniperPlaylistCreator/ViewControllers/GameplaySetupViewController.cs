@@ -3,27 +3,45 @@ using BeatSaberMarkupLanguage;
 using System;
 using System.Collections.Generic;
 using PlayerSniperPlaylistCreator.Configuration;
-using PlayerSniperPlaylistCreator.PlayerList;
-using BeatSaberMarkupLanguage.Components.Settings;
 using PlayerSniperPlaylistCreator.Playlist;
 using Newtonsoft.Json.Linq;
 using Loader = SongCore.Loader;
 using BeatSaberMarkupLanguage.Parser;
 using TMPro;
 using BeatSaberMarkupLanguage.Components;
-using BeatSaberMarkupLanguage.Tags;
 using UnityEngine.UI;
 using IPA.Utilities;
 using System.IO;
+using Zenject;
+using PlaylistManager;
+using BeatSaberMarkupLanguage.ViewControllers;
+using BeatSaberMarkupLanguage.GameplaySetup;
+using BeatSaberMarkupLanguage.Settings;
 
 namespace PlayerSniperPlaylistCreator.ViewControllers
 {
     [ViewDefinition("PlayerSniperPlaylistCreator.ViewControllers.GameplaySetupViewController.bsml")]
-    public class GameplaySetupViewController
+    public class GameplaySetupViewController : BSMLAutomaticViewController, IInitializable
     {
+
+        [Inject] private readonly PlaylistDataManager _playlistDataManager;
+
+        public void Initialize()
+        {
+            if (!PluginConfig.Instance.enabled)
+            {
+                GameplaySetup.instance.RemoveTab("PSPC");
+            }
+            else
+            {
+                GameplaySetup.instance.AddTab("PSPC", "PlayerSniperPlaylistCreator.ViewControllers.GameplaySetupViewController.bsml", this, MenuType.Solo);
+                Plugin.Log.Info("PSPC view controller initialized");
+            }
+        }
 
         public GameplaySetupViewController() 
         {
+
             if (PluginConfig.Instance.selectedPlayerId == -1)
             {
                 PluginConfig.Instance.selectedPlayerName = "None";
@@ -35,7 +53,10 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
             }
         }
 
+        
+
         #region Variables
+
         private int _positionInArr = 0;
         internal int positionInArr
         {
@@ -155,6 +176,8 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
 
         #endregion Variables
 
+        
+
         #region BSMLActions
 
         #region Root
@@ -195,6 +218,8 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
                 writePlaylistToFile(playlist);
                 Loader.Instance.RefreshSongs();
                 BeatSaberPlaylistsLib.PlaylistManager.DefaultManager.RefreshPlaylists(true);
+
+                _playlistDataManager.selectedPlaylist = BeatSaberPlaylistsLib.PlaylistManager.DefaultManager.GetPlaylist($"{playlist.playlistTitle}.bplist");
 
                 showResult("Successfully generated playlist!");
             }
@@ -338,6 +363,7 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
             hideAllModals("resultModalShow");
             if (ex != null) Plugin.Log.Error($"An error occured: {ex}");
         }
+
 
         #endregion Internal Methods
 

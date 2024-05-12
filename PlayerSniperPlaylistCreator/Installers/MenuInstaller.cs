@@ -1,14 +1,12 @@
-﻿using PlaylistManager;
-using Zenject;
+﻿using Zenject;
 
 namespace PlayerSniperPlaylistCreator.Installers
 {
-    internal class MenuInstaller : Installer
+    internal class MenuInstaller : Installer<MenuInstaller>
     {
         public override void InstallBindings()
         {
-            Container.Bind<ViewControllers.GameplaySetupViewController>().AsSingle();
-            Container.Bind<PlaylistDataManager>().FromResolve();
+            Container.BindInterfacesAndSelfTo<ViewControllers.GameplaySetupViewController>().FromNewComponentAsViewController().AsSingle();
         }
     }
 }

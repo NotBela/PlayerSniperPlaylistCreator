@@ -30,16 +30,7 @@ namespace PlayerSniperPlaylistCreator.Configuration
         public virtual void Changed()
         {
             // Do stuff when the config is changed.
-            if (!enabled)
-            {
-                GameplaySetup.instance.RemoveTab("PSPC");
-            }
-            else
-            {
-                ViewControllers.GameplaySetupViewController controller = new ViewControllers.GameplaySetupViewController();
-
-                GameplaySetup.instance.AddTab("PSPC", "PlayerSniperPlaylistCreator.ViewControllers.GameplaySetupViewController.bsml", controller, MenuType.Solo);
-            }
+            
         }
 
         /// <summary>

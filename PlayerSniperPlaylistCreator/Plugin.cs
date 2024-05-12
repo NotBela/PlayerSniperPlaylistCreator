@@ -4,10 +4,8 @@ using IPA;
 using IPA.Config.Stores;
 using PlayerSniperPlaylistCreator.Configuration;
 using PlayerSniperPlaylistCreator.Installers;
-using PlayerSniperPlaylistCreator.PlayerList;
+using PlayerSniperPlaylistCreator.ViewControllers;
 using SiraUtil.Zenject;
-using System;
-using System.IO;
 using IPALogger = IPA.Logging.Logger;
 
 namespace PlayerSniperPlaylistCreator
@@ -49,14 +47,6 @@ namespace PlayerSniperPlaylistCreator
         public void OnApplicationStart()
         {
             BSMLSettings.instance.AddSettingsMenu("PSPC", "PlayerSniperPlaylistCreator.ViewControllers.SettingsViewController.bsml", Configuration.PluginConfig.Instance);
-            // Log.Debug("OnApplicationStart");
-
-            if (PluginConfig.Instance.enabled)
-            {
-                ViewControllers.GameplaySetupViewController controller = new ViewControllers.GameplaySetupViewController();
-
-                GameplaySetup.instance.AddTab("PSPC", "PlayerSniperPlaylistCreator.ViewControllers.GameplaySetupViewController.bsml", controller, MenuType.Solo);
-            }
 
         }
 
