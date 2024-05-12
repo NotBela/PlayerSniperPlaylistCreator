@@ -215,11 +215,11 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
                     PluginConfig.Instance.playlistOrder
                 );
 
-                writePlaylistToFile(playlist);
+                writePlaylistToFile(playlist, $"{targetID}");
                 Loader.Instance.RefreshSongs();
                 BeatSaberPlaylistsLib.PlaylistManager.DefaultManager.RefreshPlaylists(true);
 
-                _playlistDataManager.selectedPlaylist = BeatSaberPlaylistsLib.PlaylistManager.DefaultManager.GetPlaylist($"{playlist.playlistTitle}.bplist");
+                _playlistDataManager.selectedPlaylist = BeatSaberPlaylistsLib.PlaylistManager.DefaultManager.GetPlaylist($"{targetID}.bplist", true);
 
                 showResult("Successfully generated playlist!");
             }
@@ -340,9 +340,9 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
 
         #region Internal Methods
 
-        private static void writePlaylistToFile(Playlist.Playlist playlist)
+        private static void writePlaylistToFile(Playlist.Playlist playlist, string fileName)
         {
-            File.WriteAllText($"{UnityGame.InstallPath}\\Playlists\\{playlist.playlistTitle}.bplist", playlist.toJson());
+            File.WriteAllText($"{UnityGame.InstallPath}\\Playlists\\{fileName}.bplist", playlist.toJson());
         }
 
         private void hideAllModals(string modalToShow = null)
