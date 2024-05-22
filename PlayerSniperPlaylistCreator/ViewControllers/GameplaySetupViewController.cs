@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using PlayerSniperPlaylistCreator.Configuration;
 using PlayerSniperPlaylistCreator.Playlist;
 using Newtonsoft.Json.Linq;
-using Loader = SongCore.Loader;
 using BeatSaberMarkupLanguage.Parser;
 using TMPro;
 using BeatSaberMarkupLanguage.Components;
@@ -13,19 +12,15 @@ using UnityEngine.UI;
 using IPA.Utilities;
 using System.IO;
 using Zenject;
-using PlaylistManager;
 using BeatSaberMarkupLanguage.ViewControllers;
 using BeatSaberMarkupLanguage.GameplaySetup;
-using static UnityEngine.GraphicsBuffer;
+using Loader = SongCore.Loader;
 
 namespace PlayerSniperPlaylistCreator.ViewControllers
 {
     [ViewDefinition("PlayerSniperPlaylistCreator.ViewControllers.GameplaySetupViewController.bsml")]
     public class GameplaySetupViewController : BSMLAutomaticViewController, IInitializable
     {
-
-        [Inject] private readonly PlaylistDataManager _playlistDataManager;
-
         public void Initialize()
         {
             if (!PluginConfig.Instance.enabled)
@@ -216,12 +211,12 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
                 );
 
                 writePlaylistToFile(playlist, $"{targetID}");
+
+                Loader.Instance.RefreshSongs();
                 BeatSaberPlaylistsLib.PlaylistManager.DefaultManager.RefreshPlaylists(true);
                 
 
                 showResult("Successfully generated playlist!");
-
-                _playlistDataManager.selectedPlaylist = BeatSaberPlaylistsLib.PlaylistManager.DefaultManager.GetPlaylist($"{targetID}.bplist");
             }
             catch (Exception e)
             {
