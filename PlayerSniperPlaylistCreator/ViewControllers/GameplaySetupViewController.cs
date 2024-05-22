@@ -16,7 +16,7 @@ using Zenject;
 using PlaylistManager;
 using BeatSaberMarkupLanguage.ViewControllers;
 using BeatSaberMarkupLanguage.GameplaySetup;
-using BeatSaberMarkupLanguage.Settings;
+using static UnityEngine.GraphicsBuffer;
 
 namespace PlayerSniperPlaylistCreator.ViewControllers
 {
@@ -216,12 +216,12 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
                 );
 
                 writePlaylistToFile(playlist, $"{targetID}");
-                Loader.Instance.RefreshSongs();
                 BeatSaberPlaylistsLib.PlaylistManager.DefaultManager.RefreshPlaylists(true);
-
-                _playlistDataManager.selectedPlaylist = BeatSaberPlaylistsLib.PlaylistManager.DefaultManager.GetPlaylist($"{targetID}.bplist", true);
+                
 
                 showResult("Successfully generated playlist!");
+
+                _playlistDataManager.selectedPlaylist = BeatSaberPlaylistsLib.PlaylistManager.DefaultManager.GetPlaylist($"{targetID}.bplist");
             }
             catch (Exception e)
             {
