@@ -1,13 +1,20 @@
 ﻿<horizontal>
 	<vertical>
-		<text text="~selectedText" id="selectedPlayer"/>
+		<vertical>
+			<text text="~selectedText" id="selectedPlayer" />
 
-		<button id='addPlayerButton' on-click='addPlayerButtonClick' text='Change Player' pad-bottom='5' />
+			<button id='addPlayerButton' on-click='addPlayerButtonClick' text='Change Player' pad-bottom='20' />
 
-		<button on-click='settingsButtonClick' id='settingsButton' text='Playlist Settings' pad-bottom='20'/>
+		</vertical>
 
-		<primary-button interactable='~createButtonInteractable' on-click='createButtonOnClick' id='createButton' text='Generate Playlist'/>
+		<horizontal pad-bottom='5' pad-left='6'>
+			<primary-button interactable='~createButtonInteractable' on-click='createButtonOnClick' id='createButton' text='Generate Playlist'/>
+			
+			<clickable-image on-click='settingsButtonClick' id='settingsButton' preserve-aspect='true' src='#SettingsIcon'/>
+		</horizontal>
 
+		<text text='PlayerSniperPlaylistCreator v1.0.0' />
+		
 		<modal size-delta-x='100' size-delta-y='35' id='settingsModal' show-event='settingsModalShow' click-off-closes='true' hide-event='settingsModalHide'  move-to-center='true'>
 			<horizontal bg='round-rect-panel'>
 				<vertical>
