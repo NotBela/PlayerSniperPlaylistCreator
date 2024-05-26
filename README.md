@@ -5,9 +5,9 @@ Automatically create playlists of maps to snipe selected players on
 Simply use the ingame GUI to select a player to generate a playlist for, and generate a playlist!
 
 # Playlist settings
-- Include Unplayed
+- Include Unplayed:
   Include maps that you have not played but the target has. Disabled by default.
-- Ranked Only
+- Ranked Only:
   Exlude maps that are not ranked on scoresaber. Enabled by default.
 - Playlist Order
     - Target Highest: Sorts the playlist with the target's highest scores first. Selected by default.
