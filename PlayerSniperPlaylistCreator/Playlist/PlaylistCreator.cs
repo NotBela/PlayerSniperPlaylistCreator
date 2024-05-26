@@ -8,7 +8,7 @@ namespace PlayerSniperPlaylistCreator.Playlist
 {
     internal class PlaylistCreator
     {
-        private const string theFunnyMapHash = "5cff0b7298cc5a672c84e8d3"; //currently set to: rctts
+        private const string theFunnyMapHash = "ad6c9f88d63259a95e39397c31be2981c4beb744"; //currently set to: rctts
         private const string theFunnyDiff = "ExpertPlus";
         private const string theFunnyCharacteristic = "Standard";
         private const int theFunnyMapNumber = 100;
