@@ -1,5 +1,7 @@
 # PlayerSniperPlaylistCreator
-Automatically create playlists of maps to snipe selected players on
+Automatically create playlists of maps to snipe selected players on.
+
+Requires BSIPA, BSML, BS Utils, Songcore, and SiraUtil.
 
 # Usage
 Simply use the ingame GUI to select a player to generate a playlist for, and generate a playlist!
