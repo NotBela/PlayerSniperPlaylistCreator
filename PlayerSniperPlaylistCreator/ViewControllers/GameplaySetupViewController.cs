@@ -337,7 +337,8 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
 
         private static void writePlaylistToFile(Playlist.Playlist playlist, string fileName)
         {
-            File.WriteAllText($"{UnityGame.InstallPath}\\Playlists\\{fileName}.bplist", playlist.toJson());
+            Directory.CreateDirectory($"{UnityGame.InstallPath}\\Playlists\\PlayerSniperPlaylistCreator\\");
+            File.WriteAllText($"{UnityGame.InstallPath}\\Playlists\\PlayerSniperPlaylistCreator\\{fileName}.bplist", playlist.toJson());
         }
 
         private void hideAllModals(string modalToShow = null)
