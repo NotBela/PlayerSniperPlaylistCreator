@@ -135,7 +135,6 @@
   <ItemGroup>
     <Compile Include="ApiHelper\ApiHelper.cs" />
     <Compile Include="Installers\MenuInstaller.cs" />
-    <Compile Include="PlayerList\Player.cs" />
     <Compile Include="Playlist\Difficulty.cs" />
     <Compile Include="Playlist\Image.cs" />
     <Compile Include="Playlist\Map.cs" />
