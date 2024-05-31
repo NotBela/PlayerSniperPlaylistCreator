@@ -15,6 +15,7 @@ using Zenject;
 using BeatSaberMarkupLanguage.ViewControllers;
 using BeatSaberMarkupLanguage.GameplaySetup;
 using Loader = SongCore.Loader;
+using BeatSaberPlaylistsLib;
 
 namespace PlayerSniperPlaylistCreator.ViewControllers
 {
@@ -28,7 +29,6 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
 
         public GameplaySetupViewController() 
         {
-
             if (PluginConfig.Instance.selectedPlayerId == -1)
             {
                 PluginConfig.Instance.selectedPlayerName = "None";
@@ -37,6 +37,11 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
             else
             {
                 createButtonInteractable = true;
+            }
+
+            if (doesPlaylistExist($"{PluginConfig.Instance.selectedPlayerId}"))
+            {
+                createButton.SetButtonText("Regenerate Playlist");
             }
         }
 
@@ -203,7 +208,6 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
                 Loader.Instance.RefreshSongs();
                 BeatSaberPlaylistsLib.PlaylistManager.DefaultManager.RefreshPlaylists(true);
                 
-
                 showResult("Successfully generated playlist!");
             }
             catch (Exception e)
@@ -293,13 +297,16 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
             // add try catch here
             try
             {
-                JObject playerToAdd = (JObject) playerArr[positionInArr];
+                JObject playerToAdd = (JObject)playerArr[positionInArr];
                 PluginConfig.Instance.selectedPlayerId = long.Parse(playerToAdd["id"].ToString());
                 PluginConfig.Instance.selectedPlayerName = playerToAdd["name"].ToString();
 
                 selectedPlayerText.text = $"Selected Player: {playerToAdd["name"]}";
 
                 createButton.interactable = true;
+
+                if (doesPlaylistExist($"{PluginConfig.Instance.selectedPlayerId}")) createButton.SetButtonText("Regenerate Playlist");
+                else createButton.SetButtonText("Generate Playlist");
 
                 showResult("Successfully selected player!");
             }
@@ -346,6 +353,13 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
 
             hideAllModals("resultModalShow");
             if (ex != null) Plugin.Log.Error($"An error occured: {ex}");
+        }
+
+        private bool doesPlaylistExist(string playlistName)
+        {
+            var playlist = PlaylistManager.DefaultManager.GetPlaylist($"{playlistName}.bplist");
+
+            return playlist != null;
         }
 
 
