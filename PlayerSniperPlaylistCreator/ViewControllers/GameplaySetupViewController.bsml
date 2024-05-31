@@ -65,7 +65,7 @@
 					<horizontal preferred-height='25'>
 						<page-button pad-right='10' direction='Left' id='leftPageButton' on-click='leftPageButtonClick'/>
 						<button text='Close' id='addPlayerModalCancelButton' on-click='addPlayerModalCancelButtonClick' />
-						<button text='Select' id='addPlayerModalAddButton' on-click='addPlayerModalAddButtonClick'/>
+						<primary-button text='Select' id='addPlayerModalAddButton' on-click='addPlayerModalAddButtonClick'/>
 						<page-button pad-left='10' direction='Right' id='rightPageButton' on-click='rightPageButtonClick'/>
 					</horizontal>
 				</vertical>

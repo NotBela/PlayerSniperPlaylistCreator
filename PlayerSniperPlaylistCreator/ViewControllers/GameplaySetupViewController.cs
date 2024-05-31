@@ -171,8 +171,6 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
 
         #endregion Variables
 
-        
-
         #region BSMLActions
 
         #region Root
