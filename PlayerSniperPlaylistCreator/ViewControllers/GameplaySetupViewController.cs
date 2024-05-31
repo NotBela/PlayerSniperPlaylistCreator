@@ -23,15 +23,7 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
     {
         public void Initialize()
         {
-            if (!PluginConfig.Instance.enabled)
-            {
-                GameplaySetup.instance.RemoveTab("PSPC");
-            }
-            else
-            {
-                GameplaySetup.instance.AddTab("PSPC", "PlayerSniperPlaylistCreator.ViewControllers.GameplaySetupViewController.bsml", this, MenuType.Solo);
-                Plugin.Log.Info("PSPC view controller initialized");
-            }
+            GameplaySetup.instance.AddTab("PSPC", "PlayerSniperPlaylistCreator.ViewControllers.GameplaySetupViewController.bsml", this, MenuType.Solo);
         }
 
         public GameplaySetupViewController() 
@@ -47,8 +39,6 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
                 createButtonInteractable = true;
             }
         }
-
-        
 
         #region Variables
 

@@ -30,32 +30,5 @@ namespace PlayerSniperPlaylistCreator
             // Log.Info("PlayerSniperPlaylistCreator initialized.");
             zenjector.Install<MenuInstaller>(Location.Menu);
         }
-
-        #region BSIPA Config
-        //Uncomment to use BSIPA's config
-        /*
-        [Init]
-        public void InitWithConfig(Config conf)
-        {
-            Configuration.PluginConfig.Instance = conf.Generated<Configuration.PluginConfig>();
-            Log.Debug("Config loaded");
-        }
-        */
-        #endregion
-
-        [OnStart]
-        public void OnApplicationStart()
-        {
-            BSMLSettings.instance.AddSettingsMenu("PSPC", "PlayerSniperPlaylistCreator.ViewControllers.SettingsViewController.bsml", Configuration.PluginConfig.Instance);
-
-        }
-
-        [OnExit]
-        public void OnApplicationQuit()
-        {
-            // Log.Debug("OnApplicationQuit");
-            GameplaySetup.instance.RemoveTab("PSPC");
-
-        }
     }
 }

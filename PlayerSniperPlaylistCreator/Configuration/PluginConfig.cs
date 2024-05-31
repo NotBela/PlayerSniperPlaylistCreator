@@ -9,7 +9,6 @@ namespace PlayerSniperPlaylistCreator.Configuration
     public class PluginConfig
     {
         public static PluginConfig Instance { get; set; }
-        public virtual bool enabled { get; set; } = true;
         public virtual long selectedPlayerId { get; set; } = -1;
         public virtual string selectedPlayerName { get; set; } = "None";
         public virtual bool includeUnplayed { get; set; } = false;
