@@ -133,7 +133,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApiHelper\ApiHelper.cs" />
+    <Compile Include="ApiHelper\ScoresaberApiHelper.cs" />
     <Compile Include="ApiHelper\BeatleaderApiHelper.cs" />
     <Compile Include="Installers\MenuInstaller.cs" />
     <Compile Include="Playlist\Difficulty.cs" />

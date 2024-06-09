@@ -13,7 +13,7 @@
 			<clickable-image on-click='settingsButtonClick' id='settingsButton' preserve-aspect='true' src='#SettingsIcon'/>
 		</horizontal>
 
-		<text text='PlayerSniperPlaylistCreator v1.0.0' />
+		<text text='PlayerSniperPlaylistCreator v1.1.0' />
 		
 		<modal size-delta-x='100' size-delta-y='45' id='settingsModal' show-event='settingsModalShow' click-off-closes='true' hide-event='settingsModalHide'  move-to-center='true'>
 			<horizontal bg='round-rect-panel'>

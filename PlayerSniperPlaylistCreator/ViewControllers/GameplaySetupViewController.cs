@@ -215,9 +215,9 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
 
                 if (PluginConfig.Instance.scoresaberPrimary)
                 {
-                    sniperData = await ApiHelper.getScoresaberPlayerAsync(sniperID);
-                    targetData = await ApiHelper.getScoresaberPlayerAsync(targetID);
-                    targetPfp = await ApiHelper.getScoresaberPfpAsync(targetID);
+                    sniperData = await ScoresaberApiHelper.getScoresaberPlayerAsync(sniperID);
+                    targetData = await ScoresaberApiHelper.getScoresaberPlayerAsync(targetID);
+                    targetPfp = await ScoresaberApiHelper.getScoresaberPfpAsync(targetID);
                 }
                 else
                 {
@@ -303,9 +303,9 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
 
                 if (PluginConfig.Instance.scoresaberPrimary)
                 {
-                    response = await ApiHelper.getResponse($"/api/players?search={input}");
+                    response = await ScoresaberApiHelper.getResponse($"/api/players?search={input}");
 
-                    playerArr = (JArray)JObject.Parse(ApiHelper.getResponseData(response))["players"];
+                    playerArr = (JArray)JObject.Parse(ScoresaberApiHelper.getResponseData(response))["players"];
 
 
                     // resultsAmtText.text = $"Showing result {positionInArr + 1} out of {playerArr.Count}";
@@ -319,7 +319,7 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
                     return;
                 }
                 response = await BeatleaderApiHelper.getResponse($"/players?page=1&count=50&search={input}&friends=false");
-                playerArr = (JArray)JObject.Parse(ApiHelper.getResponseData(response))["data"];
+                playerArr = (JArray)JObject.Parse(ScoresaberApiHelper.getResponseData(response))["data"];
 
                 positionInArr = 0;
 

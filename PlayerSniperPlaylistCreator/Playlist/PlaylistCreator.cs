@@ -1,9 +1,11 @@
 ﻿using HMUI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using PlayerSniperPlaylistCreator.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace PlayerSniperPlaylistCreator.Playlist
@@ -162,7 +164,14 @@ namespace PlayerSniperPlaylistCreator.Playlist
             //create playlist object
             string imageAsBase64 = $"data:image/jpeg;base64,{image.convertToBase64()}";
 
-            Playlist playlist = new Playlist(name, songs, imageAsBase64);
+            JObject sniperData = await getPlayerDataFromCorrectLeaderboard(sniperID);
+            JObject targetData = await getPlayerDataFromCorrectLeaderboard(targetID);
+
+            string author = $"{sniperData["name"]} (PlayerSniperPlaylistCreator)";
+
+            Playlist playlist = new Playlist(name, songs, imageAsBase64, author);
+
+            
 
             //return as json string
             /*
@@ -203,10 +212,8 @@ namespace PlayerSniperPlaylistCreator.Playlist
                 string url = $"/player/{id}/scores?page={i}&count={limit}";
                 if (rankedOnly) url += "&type=ranked";
 
-                Plugin.Log.Info($"{url}");
-
                 var mapsInRequest = await BeatleaderApiHelper.getResponse(url);
-                JArray mapsJObj = (JArray)JsonConvert.DeserializeObject<JObject>(ApiHelper.getResponseData(mapsInRequest))["data"];
+                JArray mapsJObj = (JArray)JsonConvert.DeserializeObject<JObject>(ScoresaberApiHelper.getResponseData(mapsInRequest))["data"];
 
                 foreach (JObject x in mapsJObj)
                 {
@@ -226,9 +233,9 @@ namespace PlayerSniperPlaylistCreator.Playlist
         private static async Task<List<Map>> getMaps(long id, bool rankedOnly)
         {
             List<Map> maps = new List<Map>();
-            HttpResponseMessage response1 = await ApiHelper.getResponse("/api/player/" + id + "/full");
+            HttpResponseMessage response1 = await ScoresaberApiHelper.getResponse("/api/player/" + id + "/full");
 
-            JObject data1 = JsonConvert.DeserializeObject<JObject>(ApiHelper.getResponseData(response1));
+            JObject data1 = JsonConvert.DeserializeObject<JObject>(ScoresaberApiHelper.getResponseData(response1));
             int total;
             if (rankedOnly)
                 total = (int)data1["scoreStats"]["rankedPlayCount"];
@@ -243,8 +250,8 @@ namespace PlayerSniperPlaylistCreator.Playlist
                     limit = 100;
                 else
                     limit = total - ((maxPage - 2) * 100);
-                HttpResponseMessage response2 = await ApiHelper.getResponse("/api/player/" + id + "/scores?limit=" + limit + "&sort=top&page=" + i);
-                JArray data2 = (JArray)JObject.Parse(ApiHelper.getResponseData(response2))["playerScores"];
+                HttpResponseMessage response2 = await ScoresaberApiHelper.getResponse("/api/player/" + id + "/scores?limit=" + limit + "&sort=top&page=" + i);
+                JArray data2 = (JArray)JObject.Parse(ScoresaberApiHelper.getResponseData(response2))["playerScores"];
 
                 foreach (JObject x in data2)
                 {
@@ -256,6 +263,13 @@ namespace PlayerSniperPlaylistCreator.Playlist
                 }
             }
             return maps;
+        }
+
+        private static async Task<JObject> getPlayerDataFromCorrectLeaderboard(long id)
+        {
+            if (PluginConfig.Instance.scoresaberPrimary)
+                return await ScoresaberApiHelper.getScoresaberPlayerAsync(id);
+            return await BeatleaderApiHelper.getBeatLeaderPlayerAsync(id);
         }
     }
 }

@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace PlayerSniperPlaylistCreator
 {
-    public static class ApiHelper
+    public static class ScoresaberApiHelper
     {
         private static HttpClient client;
 
-        static ApiHelper()
+        static ScoresaberApiHelper()
         {
             client = new HttpClient();
             client.BaseAddress = new System.Uri("https://scoresaber.com");
@@ -42,7 +42,7 @@ namespace PlayerSniperPlaylistCreator
 
         public static async Task<JObject> getScoresaberPlayerAsync(long id)
         {
-            JObject player = JObject.Parse(getResponseData(await ApiHelper.getResponse($"/api/player/{id}/full")));
+            JObject player = JObject.Parse(getResponseData(await ScoresaberApiHelper.getResponse($"/api/player/{id}/full")));
 
             return player;
         }

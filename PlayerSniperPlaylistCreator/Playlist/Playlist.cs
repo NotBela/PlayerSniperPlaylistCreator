@@ -12,10 +12,12 @@ namespace PlayerSniperPlaylistCreator.Playlist
         public string image { get; private set; }
 
         [JsonConstructor]
-        public Playlist(string playlistTitle, List<Song> songs, string image) {
+        public Playlist(string playlistTitle, List<Song> songs, string image, string playlistAuthor = null, string playlistDescription = null) {
             this.playlistTitle = playlistTitle;
             this.songs = songs;
             this.image = image;
+            this.playlistAuthor = playlistAuthor;
+            this.playlistDiscription = playlistDescription;
         }
 
         public string toJson()
