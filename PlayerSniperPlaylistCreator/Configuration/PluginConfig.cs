@@ -14,6 +14,7 @@ namespace PlayerSniperPlaylistCreator.Configuration
         public virtual bool includeUnplayed { get; set; } = false;
         public virtual bool rankedOnly { get; set; } = true;
         public virtual string playlistOrder { get; set; } = "targetPP";
+        public virtual bool scoresaberPrimary { get; set; } = true;
 
         /// <summary>
         /// This is called whenever BSIPA reads the config from disk (including when file changes are detected).

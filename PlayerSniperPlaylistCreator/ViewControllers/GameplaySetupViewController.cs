@@ -1,21 +1,22 @@
-﻿using BeatSaberMarkupLanguage.Attributes;
-using BeatSaberMarkupLanguage;
-using System;
-using System.Collections.Generic;
+﻿using BeatSaberMarkupLanguage;
+using BeatSaberMarkupLanguage.Attributes;
+using BeatSaberMarkupLanguage.Components;
+using BeatSaberMarkupLanguage.GameplaySetup;
+using BeatSaberMarkupLanguage.Parser;
+using BeatSaberMarkupLanguage.ViewControllers;
+using BeatSaberPlaylistsLib;
+using IPA.Utilities;
+using Newtonsoft.Json.Linq;
 using PlayerSniperPlaylistCreator.Configuration;
 using PlayerSniperPlaylistCreator.Playlist;
-using Newtonsoft.Json.Linq;
-using BeatSaberMarkupLanguage.Parser;
-using TMPro;
-using BeatSaberMarkupLanguage.Components;
-using UnityEngine.UI;
-using IPA.Utilities;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Net.Http;
+using TMPro;
+using UnityEngine.UI;
 using Zenject;
-using BeatSaberMarkupLanguage.ViewControllers;
-using BeatSaberMarkupLanguage.GameplaySetup;
 using Loader = SongCore.Loader;
-using BeatSaberPlaylistsLib;
 
 namespace PlayerSniperPlaylistCreator.ViewControllers
 {
@@ -27,7 +28,7 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
             GameplaySetup.instance.AddTab("PSPC", "PlayerSniperPlaylistCreator.ViewControllers.GameplaySetupViewController.bsml", this, MenuType.Solo);
         }
 
-        public GameplaySetupViewController() 
+        public GameplaySetupViewController()
         {
             if (PluginConfig.Instance.selectedPlayerId == -1)
             {
@@ -38,24 +39,43 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
             {
                 createButtonInteractable = true;
             }
-
-            if (doesPlaylistExist($"{PluginConfig.Instance.selectedPlayerId}"))
-            {
-                createButton.SetButtonText("Regenerate Playlist");
-            }
         }
 
         #region Variables
 
-        private int _positionInArr = 0;
+        [UIValue("selectedLeaderboard")]
+        private string selectedLeaderboard
+        {
+            get
+            {
+                if (PluginConfig.Instance.scoresaberPrimary) return "Scoresaber";
+                return "Beatleader";
+            }
+            set
+            {
+                if (value == "Scoresaber") PluginConfig.Instance.scoresaberPrimary = true;
+                else PluginConfig.Instance.scoresaberPrimary = false;
+            }
+        }
+
+        [UIValue("selectedLeaderboardOptions")]
+        private List<object> selectedLeaderboardOptions = new List<object>() { "Scoresaber", "Beatleader" };
+
+        internal int _positionInArr = 0;
         internal int positionInArr
         {
             get { return _positionInArr; }
-            set {
+            set
+            {
                 _positionInArr = value;
                 nameText.text = playerArr[value]["name"].ToString();
                 rankText.text = $"#{playerArr[value]["rank"]}";
-                scoresaberPfp.SetImage(playerArr[value]["profilePicture"].ToString());
+                if (PluginConfig.Instance.scoresaberPrimary)
+                {
+                    scoresaberPfp.SetImage(playerArr[value]["profilePicture"].ToString());
+                }
+                else scoresaberPfp.SetImage(playerArr[value]["avatar"].ToString());
+                
                 resultsAmtText.text = $"Showing result {positionInArr + 1} out of {playerArr.Count}";
 
                 leftPageButton.gameObject.SetActive(value > 0);
@@ -182,24 +202,38 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
             try
             {
                 hideAllModals("loadingModalShow");
-                
+
                 var info = await BS_Utils.Gameplay.GetUserInfo.GetUserAsync();
 
                 long sniperID = long.Parse(info.platformUserId);
                 long targetID = PluginConfig.Instance.selectedPlayerId;
 
-                var sniperData = await ApiHelper.getScoresaberPlayerAsync(sniperID);
-                var targetData = await ApiHelper.getScoresaberPlayerAsync(targetID);
+                JObject sniperData; // = await ApiHelper.getScoresaberPlayerAsync(sniperID);
+                JObject targetData; // = await ApiHelper.getScoresaberPlayerAsync(targetID);
 
-                string targetName = targetData.GetValue("name").ToString();
-                Playlist.Image targetPfp = await ApiHelper.getScoresaberPfpAsync(targetID);
+                Playlist.Image targetPfp;
+
+                if (PluginConfig.Instance.scoresaberPrimary)
+                {
+                    sniperData = await ApiHelper.getScoresaberPlayerAsync(sniperID);
+                    targetData = await ApiHelper.getScoresaberPlayerAsync(targetID);
+                    targetPfp = await ApiHelper.getScoresaberPfpAsync(targetID);
+                }
+                else
+                {
+                    sniperData = await BeatleaderApiHelper.getBeatLeaderPlayerAsync(sniperID);
+                    targetData = await BeatleaderApiHelper.getBeatLeaderPlayerAsync(targetID);
+                    targetPfp = await BeatleaderApiHelper.getBeatleaderPfpAsync(targetID);
+                }
+
+                    string targetName = targetData.GetValue("name").ToString();
                 var playlist = await PlaylistCreator.createPlaylist(
-                    sniperID, 
-                    targetID, 
-                    $"{targetName} Snipe Playlist", 
-                    targetPfp, 
-                    PluginConfig.Instance.includeUnplayed, 
-                    PluginConfig.Instance.rankedOnly, 
+                    sniperID,
+                    targetID,
+                    $"{targetName} Snipe Playlist",
+                    targetPfp,
+                    PluginConfig.Instance.includeUnplayed,
+                    PluginConfig.Instance.rankedOnly,
                     PluginConfig.Instance.playlistOrder
                 );
 
@@ -207,7 +241,7 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
 
                 Loader.Instance.RefreshSongs();
                 BeatSaberPlaylistsLib.PlaylistManager.DefaultManager.RefreshPlaylists(true);
-                
+
                 showResult("Successfully generated playlist!");
             }
             catch (Exception e)
@@ -265,24 +299,33 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
                     return;
                 }
 
-                var response = await ApiHelper.getResponse($"/api/players?search={input}");
+                HttpResponseMessage response; //  = await ApiHelper.getResponse($"/api/players?search={input}");
 
-                if ((int) response.StatusCode / 100 == 4)
+                if (PluginConfig.Instance.scoresaberPrimary)
                 {
-                    showResult("No players found!");
+                    response = await ApiHelper.getResponse($"/api/players?search={input}");
+
+                    playerArr = (JArray)JObject.Parse(ApiHelper.getResponseData(response))["players"];
+
+
+                    // resultsAmtText.text = $"Showing result {positionInArr + 1} out of {playerArr.Count}";
+                    // nameText.text = $"{playerArr[positionInArr]["name"]}";
+                    // rankText.text = $"#{playerArr[positionInArr]["rank"]}";
+                    // scoresaberPfp.SetImage($"{playerArr[positionInArr]["profilePicture"]}");
+
+                    positionInArr = 0;
+
+                    hideAllModals("playerListModalShow");
                     return;
                 }
-
-                playerArr = (JArray)JObject.Parse(ApiHelper.getResponseData(response))["players"];
-
-                resultsAmtText.text = $"Showing result {positionInArr + 1} out of {playerArr.Count}";
-                nameText.text = $"{playerArr[positionInArr]["name"]}";
-                rankText.text = $"#{playerArr[positionInArr]["rank"]}";
-                scoresaberPfp.SetImage($"{playerArr[positionInArr]["profilePicture"]}");
+                response = await BeatleaderApiHelper.getResponse($"/players?page=1&count=50&search={input}&friends=false");
+                playerArr = (JArray)JObject.Parse(ApiHelper.getResponseData(response))["data"];
 
                 positionInArr = 0;
 
                 hideAllModals("playerListModalShow");
+
+
             }
             catch (Exception e)
             {
@@ -304,9 +347,6 @@ namespace PlayerSniperPlaylistCreator.ViewControllers
                 selectedPlayerText.text = $"Selected Player: {playerToAdd["name"]}";
 
                 createButton.interactable = true;
-
-                if (doesPlaylistExist($"{PluginConfig.Instance.selectedPlayerId}")) createButton.SetButtonText("Regenerate Playlist");
-                else createButton.SetButtonText("Generate Playlist");
 
                 showResult("Successfully selected player!");
             }

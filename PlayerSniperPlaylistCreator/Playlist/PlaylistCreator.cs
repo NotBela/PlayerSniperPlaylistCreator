@@ -1,5 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using HMUI;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -46,9 +48,20 @@ namespace PlayerSniperPlaylistCreator.Playlist
             //the non funny
             List<Map> maps = new List<Map>();
             //get maps
-            List<Map> sniperMaps = await getMaps(sniperID, rankedOnly);
-            List<Map> targetMaps = await getMaps(targetID, rankedOnly);
+            List<Map> sniperMaps;
+            List<Map> targetMaps;
 
+            if (Configuration.PluginConfig.Instance.scoresaberPrimary)
+            {
+                sniperMaps = await getMaps(sniperID, rankedOnly);
+                targetMaps = await getMaps(targetID, rankedOnly);
+            }
+            else
+            {
+                sniperMaps = await getMapsBeatLeader(sniperID, rankedOnly);
+                targetMaps = await getMapsBeatLeader(targetID, rankedOnly);
+            }
+            
             //keep all of the maps where map is the same and target acc > sniper acc and add them to dictionary
             foreach (Map map1 in targetMaps)
             {
@@ -166,6 +179,50 @@ namespace PlayerSniperPlaylistCreator.Playlist
         }
 
         //returns a list of map objects for the given parameters
+
+        private static async Task<List<Map>> getMapsBeatLeader(long id, bool rankedOnly)
+        {
+            List<Map> maps = new List<Map>();
+
+            var playerData = await BeatleaderApiHelper.getBeatLeaderPlayerAsync(id);
+            int total = (int)playerData["scoreStats"]["rankedPlayCount"];
+
+            if (!rankedOnly) total = (int)playerData["scoreStats"]["totalPlayCount"];
+            int maxPage = ((total - 1) / 100) + 2;
+
+            for (int i = 1; i < maxPage; i++)
+            {
+                int limit;
+                if (i < maxPage - 1)
+                    limit = 100;
+                else
+                    limit = total - ((maxPage - 2) * 100);
+
+                
+
+                string url = $"/player/{id}/scores?page={i}&count={limit}";
+                if (rankedOnly) url += "&type=ranked";
+
+                Plugin.Log.Info($"{url}");
+
+                var mapsInRequest = await BeatleaderApiHelper.getResponse(url);
+                JArray mapsJObj = (JArray)JsonConvert.DeserializeObject<JObject>(ApiHelper.getResponseData(mapsInRequest))["data"];
+
+                foreach (JObject x in mapsJObj)
+                {
+                    double pp = (double)x["pp"];
+                    double acc = (double)x["accuracy"];
+                    string hash = (string)x["leaderboard"]["song"]["hash"];
+                    Difficulty diff = new Difficulty((string)x["leaderboard"]["difficulty"]["modeName"], (string)x["leaderboard"]["difficulty"]["difficultyName"]);
+                    maps.Add(new Map(pp, acc, hash, diff));
+                }
+            }
+
+            return maps;
+
+
+        }
+
         private static async Task<List<Map>> getMaps(long id, bool rankedOnly)
         {
             List<Map> maps = new List<Map>();

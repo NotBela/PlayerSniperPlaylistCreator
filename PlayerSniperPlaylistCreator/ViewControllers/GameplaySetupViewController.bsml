@@ -15,12 +15,13 @@
 
 		<text text='PlayerSniperPlaylistCreator v1.0.0' />
 		
-		<modal size-delta-x='100' size-delta-y='35' id='settingsModal' show-event='settingsModalShow' click-off-closes='true' hide-event='settingsModalHide'  move-to-center='true'>
+		<modal size-delta-x='100' size-delta-y='45' id='settingsModal' show-event='settingsModalShow' click-off-closes='true' hide-event='settingsModalHide'  move-to-center='true'>
 			<horizontal bg='round-rect-panel'>
 				<vertical>
 					<checkbox-setting id='includeUnplayed' value='includeUnplayedValue' text='Include Unplayed Maps' apply-on-change='true'/>
 					<checkbox-setting id='rankedOnly' value='rankedOnlyValue' text='Ranked Only' apply-on-change='true'/>
 					<list-setting id='order' value='orderValue' choices='playlistOrderList' text='Playlist Order' apply-on-change='true' />
+					<list-setting id='selectedLeaderboardList' value ='selectedLeaderboard' choices='selectedLeaderboardOptions' text='Leaderboard' apply-on-change='true'/>
 					<button text='Close' id='settingsCloseButton' on-click='settingsCloseButtonClicked'/>
 				</vertical>
 			</horizontal>
@@ -46,7 +47,7 @@
 
 		<modal-keyboard clear-on-open='true' show-event='keyboardShow' id='keyboard' hide-event='keyboardHide' click-off-closes='true' move-to-center='true' on-enter='keyboardOnEnter'/>
 
-		<modal size-delta-x='60' size-delta-y='50' show-event='playerListModalShow' id='playerListModal' hide-event='playerListModalHide' click-off-closes='true' move-to-center='true'>
+		<modal size-delta-x='70' size-delta-y='50' show-event='playerListModalShow' id='playerListModal' hide-event='playerListModalHide' click-off-closes='true' move-to-center='true'>
 			<horizontal bg='round-rect-panel'>
 				<vertical child-control-height='true'>
 
@@ -65,7 +66,7 @@
 					<horizontal preferred-height='25'>
 						<page-button pad-right='10' direction='Left' id='leftPageButton' on-click='leftPageButtonClick'/>
 						<button text='Close' id='addPlayerModalCancelButton' on-click='addPlayerModalCancelButtonClick' />
-						<primary-button text='Select' id='addPlayerModalAddButton' on-click='addPlayerModalAddButtonClick'/>
+						<button text='Select' id='addPlayerModalAddButton' on-click='addPlayerModalAddButtonClick'/>
 						<page-button pad-left='10' direction='Right' id='rightPageButton' on-click='rightPageButtonClick'/>
 					</horizontal>
 				</vertical>
