@@ -1,5 +1,4 @@
-﻿using IPA.Utilities;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using PlayerSniperPlaylistCreator.Playlist;
 using System;
 using System.IO;

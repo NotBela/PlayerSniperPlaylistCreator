@@ -1,6 +1,4 @@
-﻿using BeatSaberMarkupLanguage.GameplaySetup;
-using BeatSaberMarkupLanguage.Settings;
-using IPA;
+﻿using IPA;
 using IPA.Config.Stores;
 using PlayerSniperPlaylistCreator.Configuration;
 using PlayerSniperPlaylistCreator.Installers;

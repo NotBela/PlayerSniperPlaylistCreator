@@ -3,7 +3,7 @@
   "id": "PlayerSniperPlaylistCreator",
   "name": "PlayerSniperPlaylistCreator",
   "author": "Bela",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Automatically create playlists of maps to snipe selected players on",
   "gameVersion": "1.29.1",
   "dependsOn": {
