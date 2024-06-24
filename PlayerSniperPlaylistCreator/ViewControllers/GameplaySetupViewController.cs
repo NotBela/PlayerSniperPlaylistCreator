@@ -4,7 +4,6 @@ using BeatSaberMarkupLanguage.Components;
 using BeatSaberMarkupLanguage.GameplaySetup;
 using BeatSaberMarkupLanguage.Parser;
 using BeatSaberMarkupLanguage.ViewControllers;
-using BeatSaberPlaylistsLib;
 using IPA.Utilities;
 using Newtonsoft.Json.Linq;
 using PlayerSniperPlaylistCreator.Configuration;
@@ -17,6 +16,7 @@ using TMPro;
 using UnityEngine.UI;
 using Zenject;
 using Loader = SongCore.Loader;
+using BeatSaberPlaylistsLib;
 
 namespace PlayerSniperPlaylistCreator.ViewControllers
 {
